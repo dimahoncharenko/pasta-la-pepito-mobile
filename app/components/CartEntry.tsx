@@ -39,13 +39,17 @@ export const CartEntry = observer(({ entry }: Props) => {
         </Text>
       </View>
       <View style={[$row, $controllers]}>
-        <Icon icon="trash" onPress={() => handleRemove(entry.name)} />
+        <Icon
+          icon="trash"
+          color={colors.palette.gray300}
+          onPress={() => handleRemove(entry.name)}
+        />
         <View style={$buttons}>
           <Button
             style={{ backgroundColor: "transparent", borderWidth: 0 }}
             textStyle={[
               $button,
-              { lineHeight: Number($button.height), color: colors.palette.gray300 },
+              { lineHeight: Number($button.height), color: colors.palette.gray400 },
             ]}
             onPress={() => handleChangeQuantity("DECREASE")}
           >
@@ -58,7 +62,7 @@ export const CartEntry = observer(({ entry }: Props) => {
             style={{ backgroundColor: "transparent", borderWidth: 0 }}
             textStyle={[
               $button,
-              { lineHeight: Number($button.height), color: colors.palette.gray300 },
+              { lineHeight: Number($button.height), color: colors.palette.gray400 },
             ]}
             onPress={() => handleChangeQuantity("INCREASE")}
           >

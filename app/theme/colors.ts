@@ -35,7 +35,8 @@ const palette = {
 
   gray100: "#FBFBFB",
   gray200: "#D2D4D4",
-  gray300: "#6F7273",
+  gray300: "#9FA3A4",
+  gray400: "#6F7273",
 } as const
 
 export const colors = {
