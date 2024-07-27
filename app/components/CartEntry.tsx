@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite"
 import { Icon } from "./Icon"
 import { Button } from "./Button"
 import { Text } from "./Text"
-import { colors } from "app/theme"
+import { colors, typography } from "app/theme"
 import { useStores } from "app/models"
 
 type Props = {
@@ -49,29 +49,27 @@ export const CartEntry = observer(({ entry }: Props) => {
             style={{ backgroundColor: "transparent", borderWidth: 0 }}
             textStyle={[
               $button,
-              { lineHeight: Number($button.height), color: colors.palette.gray400 },
+              { lineHeight: Number($button.height), color: colors.palette.gray400, fontSize: 20 },
             ]}
             onPress={() => handleChangeQuantity("DECREASE")}
           >
             -
           </Button>
           <View style={$button}>
-            <Text>{entry.quantity}</Text>
+            <Text style={$quantity}>{entry.quantity}</Text>
           </View>
           <Button
             style={{ backgroundColor: "transparent", borderWidth: 0 }}
             textStyle={[
               $button,
-              { lineHeight: Number($button.height), color: colors.palette.gray400 },
+              { lineHeight: Number($button.height), color: colors.palette.gray400, fontSize: 20 },
             ]}
             onPress={() => handleChangeQuantity("INCREASE")}
           >
             +
           </Button>
         </View>
-        <Text style={$price} preset="bold">
-          {entry.price}₴
-        </Text>
+        <Text style={$price}>{entry.price}₴</Text>
       </View>
     </View>
   )
@@ -124,4 +122,10 @@ const $controllers: ViewStyle = {
 const $price: TextStyle = {
   fontSize: 20,
   lineHeight: 26,
+  fontFamily: typography.fonts.inter.medium,
+}
+
+const $quantity: TextStyle = {
+  fontSize: 18,
+  lineHeight: 23,
 }
