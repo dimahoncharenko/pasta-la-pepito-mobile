@@ -125,7 +125,7 @@ const $title: TextStyle = {
 }
 
 const $reportBugsLink: TextStyle = {
-  color: colors.tint,
+  color: colors.text,
   marginBottom: spacing.lg,
   alignSelf: isRTL ? "flex-start" : "flex-end",
 }

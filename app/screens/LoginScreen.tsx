@@ -1,6 +1,8 @@
 import { observer } from "mobx-react-lite"
 import React, { ComponentType, FC, useEffect, useMemo, useRef, useState } from "react"
-import { TextInput, TextStyle, ViewStyle } from "react-native"
+import { Platform, TextInput, TextStyle, ViewStyle } from "react-native"
+import * as SecureStore from "expo-secure-store"
+
 import { Button, Icon, Screen, Text, TextField, TextFieldAccessoryProps } from "../components"
 import { useStores } from "../models"
 import { AppStackScreenProps } from "../navigators"
@@ -22,8 +24,19 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
   useEffect(() => {
     // Here is where you could fetch credentials from keychain or storage
     // and pre-fill the form fields.
-    setAuthEmail("ignite@infinite.red")
-    setAuthPassword("ign1teIsAwes0m3")
+
+    if (Platform.OS === "web") return
+
+    ;(async () => {
+      let result = await SecureStore.getItemAsync("login-credentials")
+      if (result) {
+        const [email, password] = result.split("---")
+        setAuthEmail(email)
+        setAuthPassword(password)
+      } else {
+        console.log("No values stored under that key.")
+      }
+    })()
 
     // Return a "cleanup" function that React will run when the component unmounts
     return () => {
@@ -34,7 +47,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
 
   const error = isSubmitted ? validationError : ""
 
-  function login() {
+  async function login() {
     setIsSubmitted(true)
     setAttemptsCount(attemptsCount + 1)
 
@@ -42,6 +55,11 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
 
     // Make a request to your server to get an authentication token.
     // If successful, reset the fields and set the token.
+
+    if (Platform.OS !== "web") {
+      await SecureStore.setItemAsync("login-credentials", `${authEmail}---${authPassword}`)
+    }
+
     setIsSubmitted(false)
     setAuthPassword("")
     setAuthEmail("")
@@ -131,7 +149,7 @@ const $enterDetails: TextStyle = {
 }
 
 const $hint: TextStyle = {
-  color: colors.tint,
+  color: colors.main,
   marginBottom: spacing.md,
 }
 

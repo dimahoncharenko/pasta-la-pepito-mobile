@@ -1,17 +1,21 @@
+import { observer } from "mobx-react-lite"
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps } from "@react-navigation/native"
 import React from "react"
-import { TextStyle, ViewStyle } from "react-native"
+import { TextStyle, View, ViewStyle } from "react-native"
+
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { Icon } from "../components"
+import { Icon, Text } from "../components"
 import { translate } from "../i18n"
-import { DemoCommunityScreen, DemoShowroomScreen, DemoDebugScreen } from "../screens"
+import { CartScreen, DemoShowroomScreen, DemoDebugScreen } from "../screens"
 import { DemoPodcastListScreen } from "../screens/DemoPodcastListScreen"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
+import { useStores } from "app/models"
+import { CartTab } from "app/components/CartTab"
 
 export type DemoTabParamList = {
-  DemoCommunity: undefined
+  CartScreen: undefined
   DemoShowroom: { queryIndex?: string; itemIndex?: string }
   DemoDebug: undefined
   DemoPodcastList: undefined
@@ -36,7 +40,7 @@ const Tab = createBottomTabNavigator<DemoTabParamList>()
  * More info: https://reactnavigation.org/docs/bottom-tab-navigator/
  * @returns {JSX.Element} The rendered `DemoNavigator`.
  */
-export function DemoNavigator() {
+export const DemoNavigator = () => {
   const { bottom } = useSafeAreaInsets()
 
   return (
@@ -55,20 +59,23 @@ export function DemoNavigator() {
         name="DemoShowroom"
         component={DemoShowroomScreen}
         options={{
-          tabBarLabel: translate("demoNavigator.componentsTab"),
+          tabBarLabel: translate("demoNavigator.homeTab"),
           tabBarIcon: ({ focused }) => (
-            <Icon icon="components" color={focused ? colors.tint : undefined} size={30} />
+            <Icon icon="home" color={focused ? colors.main : undefined} size={30} />
           ),
         }}
       />
 
       <Tab.Screen
-        name="DemoCommunity"
-        component={DemoCommunityScreen}
+        name="CartScreen"
+        component={CartScreen}
         options={{
-          tabBarLabel: translate("demoNavigator.communityTab"),
+          tabBarLabel: translate("demoNavigator.cartTab"),
           tabBarIcon: ({ focused }) => (
-            <Icon icon="community" color={focused ? colors.tint : undefined} size={30} />
+            <View style={{ position: "relative" }}>
+              <Icon icon="cart" color={focused ? colors.main : undefined} size={30} />
+              <CartTab />
+            </View>
           ),
         }}
       />
@@ -77,10 +84,10 @@ export function DemoNavigator() {
         name="DemoPodcastList"
         component={DemoPodcastListScreen}
         options={{
-          tabBarAccessibilityLabel: translate("demoNavigator.podcastListTab"),
-          tabBarLabel: translate("demoNavigator.podcastListTab"),
+          tabBarAccessibilityLabel: translate("demoNavigator.configTab"),
+          tabBarLabel: translate("demoNavigator.configTab"),
           tabBarIcon: ({ focused }) => (
-            <Icon icon="podcast" color={focused ? colors.tint : undefined} size={30} />
+            <Icon icon="settings" color={focused ? colors.main : undefined} size={30} />
           ),
         }}
       />
@@ -91,7 +98,7 @@ export function DemoNavigator() {
         options={{
           tabBarLabel: translate("demoNavigator.debugTab"),
           tabBarIcon: ({ focused }) => (
-            <Icon icon="debug" color={focused ? colors.tint : undefined} size={30} />
+            <Icon icon="debug" color={focused ? colors.main : undefined} size={30} />
           ),
         }}
       />

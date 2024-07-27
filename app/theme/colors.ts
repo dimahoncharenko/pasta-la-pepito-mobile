@@ -11,12 +11,9 @@ const palette = {
   neutral800: "#191015",
   neutral900: "#000000",
 
-  primary100: "#F4E0D9",
-  primary200: "#E8C1B4",
-  primary300: "#DDA28E",
-  primary400: "#D28468",
-  primary500: "#C76542",
-  primary600: "#A54F31",
+  primary100: "#0C99A2",
+  primary200: "#047585",
+  primary300: "#035C68",
 
   secondary100: "#DCDDE9",
   secondary200: "#BCC0D6",
@@ -35,6 +32,10 @@ const palette = {
 
   overlay20: "rgba(25, 16, 21, 0.2)",
   overlay50: "rgba(25, 16, 21, 0.5)",
+
+  gray100: "#FBFBFB",
+  gray200: "#D2D4D4",
+  gray300: "#6F7273",
 } as const
 
 export const colors = {
@@ -67,7 +68,7 @@ export const colors = {
   /**
    * The main tinting color.
    */
-  tint: palette.primary500,
+  main: palette.primary200,
   /**
    * A subtle color used for lines.
    */
