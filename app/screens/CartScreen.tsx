@@ -1,9 +1,10 @@
 import React, { FC } from "react"
 import { TextStyle, View, ViewStyle } from "react-native"
+import { useForm } from "react-hook-form"
 
-import { EmptyState, Icon, Screen, Text } from "../components"
+import { Button, EmptyState, Icon, Screen, Text } from "../components"
 import { DemoTabScreenProps } from "../navigators/DemoNavigator"
-import { spacing, typography } from "../theme"
+import { colors, spacing, typography } from "../theme"
 
 import { CartList } from "app/components/CartList"
 import { CartBilling } from "app/components/CartBilling"
@@ -13,6 +14,28 @@ import { DeliveryMethods } from "app/components/DeliveryMethods"
 
 export const CartScreen: FC<DemoTabScreenProps<"CartScreen">> = observer(function (_props) {
   const { cartStore } = useStores()
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      city: "",
+      street: "",
+      houseNumber: "",
+      entrance: "",
+      appartmentNumber: "",
+      score: "",
+      code: "",
+    },
+  })
+
+  const handleSubmitForm = (data: typeof control._formValues) => {
+    console.log("Submitted: ", data)
+  }
+
+  console.log("CartScreen (errors): ", errors)
 
   if (!cartStore.getEntriesCount)
     return (
@@ -31,10 +54,21 @@ export const CartScreen: FC<DemoTabScreenProps<"CartScreen">> = observer(functio
       <Text preset="bold" style={$heading}>
         <Icon icon="caretLeft" /> Кошик
       </Text>
-      <DeliveryMethods />
+      <DeliveryMethods control={control} errors={errors} />
       {/* @ts-ignore */}
       <CartList entries={cartStore.entries} />
       <CartBilling totalPrice={cartStore.getTotalPrice} />
+      <Button
+        style={$orderButton}
+        pressedStyle={$orderButtonHover}
+        onPress={handleSubmit(handleSubmitForm)}
+        textStyle={{ color: "white" }}
+      >
+        Оформити замовлення
+      </Button>
+      <Button style={$returnButton} textStyle={{ color: colors.palette.primary100 }}>
+        Повернутись до меню
+      </Button>
     </Screen>
   )
 })
@@ -56,4 +90,25 @@ const $emptyContainer: ViewStyle = {
 const $container: ViewStyle = {
   paddingTop: spacing.lg + spacing.xl,
   paddingHorizontal: spacing.lg,
+}
+
+const $button: ViewStyle = {
+  borderRadius: 30,
+  paddingVertical: 12,
+}
+
+const $orderButton: ViewStyle = {
+  ...$button,
+  backgroundColor: colors.palette.primary100,
+  borderWidth: 0,
+}
+
+const $orderButtonHover: ViewStyle = {
+  backgroundColor: colors.palette.primary200,
+}
+
+const $returnButton: ViewStyle = {
+  ...$button,
+  borderColor: colors.palette.primary100,
+  marginVertical: spacing.xl,
 }

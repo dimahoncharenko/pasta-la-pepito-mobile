@@ -1,5 +1,5 @@
 import { TextStyle, View, ViewStyle } from "react-native"
-import { Formik } from "formik"
+import { Controller, Control, FieldErrors } from "react-hook-form"
 
 import { Tabs } from "./Tabs"
 import { Text } from "./Text"
@@ -8,7 +8,21 @@ import { Icon } from "./Icon"
 import { colors, spacing, typography } from "app/theme"
 import { TextField } from "./TextField"
 
-export const DeliveryMethods = () => {
+type TextFields = {
+  city: string
+  street: string
+  houseNumber: string
+  entrance: string
+  appartmentNumber: string
+  score: string
+  code: string
+}
+
+type Props = {
+  control: Control<TextFields, any>
+  errors: FieldErrors<TextFields>
+}
+export const DeliveryMethods = ({ control, errors }: Props) => {
   return (
     <>
       <Tabs tabs={["Доставка", "Самовивіз"]}>
@@ -16,73 +30,111 @@ export const DeliveryMethods = () => {
           <>
             <Tab tab="Доставка">
               <View style={$container}>
-                <Formik
-                  initialValues={{
-                    city: "",
-                    street: "",
-                    houseNumber: "",
-                    entrance: "",
-                    appartmentNumber: "",
-                    score: "",
-                    code: "",
-                  }}
-                  onSubmit={console.log}
-                >
-                  {({ handleBlur, handleChange, handleSubmit, values }) => (
-                    <View style={{ display: "flex", gap: 28 }}>
-                      <Text style={$formTitle}>Адреса доставки</Text>
+                <View style={{ display: "flex", gap: 28 }}>
+                  <Text style={$formTitle}>Адреса доставки</Text>
+                  <Controller
+                    control={control}
+                    name="city"
+                    rules={{ required: true }}
+                    render={({ field: { value, onBlur, onChange } }) => (
+                      <View style={$inputWrapper}>
+                        <TextField
+                          value={value}
+                          onBlur={onBlur}
+                          onChangeText={onChange}
+                          label="Місто"
+                          placeholder="Введіть місто"
+                          accessibilityLabel="Місто"
+                          inputWrapperStyle={[
+                            {
+                              borderWidth: 0,
+                              borderBottomWidth: 1,
+                            },
+                            errors.city && $errorInput,
+                          ]}
+                          style={{
+                            marginHorizontal: 0,
+                          }}
+                          placeholderTextColor={errors.city ? colors.error : colors.palette.gray300}
+                        />
+                        {errors.city && <Text style={$errorText}>Обов'язково введіть місто</Text>}
+                      </View>
+                    )}
+                  />
+                  <Controller
+                    control={control}
+                    name="street"
+                    rules={{ required: true }}
+                    render={({ field: { value, onBlur, onChange } }) => (
+                      <View style={$inputWrapper}>
+                        <TextField
+                          value={value}
+                          onBlur={onBlur}
+                          label="Вулиця"
+                          placeholder="Введіть вулицю"
+                          onChangeText={onChange}
+                          inputWrapperStyle={[
+                            {
+                              borderWidth: 0,
+                              borderBottomWidth: 1,
+                            },
+                            errors.street && $errorInput,
+                          ]}
+                          style={{
+                            marginHorizontal: 0,
+                          }}
+                          placeholderTextColor={
+                            errors.street ? colors.error : colors.palette.gray300
+                          }
+                        />
+                        {errors.street && (
+                          <Text style={$errorText}>Обов'язково введіть вулицю</Text>
+                        )}
+                      </View>
+                    )}
+                  />
+                  <Controller
+                    control={control}
+                    name="houseNumber"
+                    rules={{ required: true }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <View style={$inputWrapper}>
+                        <TextField
+                          value={value}
+                          onBlur={onBlur}
+                          onChangeText={onChange}
+                          label="Номер будинку"
+                          placeholder="Введіть номер будинку"
+                          inputWrapperStyle={[
+                            {
+                              borderWidth: 0,
+                              borderBottomWidth: 1,
+                            },
+                            errors.houseNumber && $errorInput,
+                          ]}
+                          style={{
+                            marginHorizontal: 0,
+                          }}
+                          placeholderTextColor={
+                            errors.houseNumber ? colors.error : colors.palette.gray300
+                          }
+                        />
+                        {errors.houseNumber && (
+                          <Text style={$errorText}>Обов'язково введіть номер будинку</Text>
+                        )}
+                      </View>
+                    )}
+                  />
+                  <Controller
+                    control={control}
+                    name="entrance"
+                    render={({ field: { onChange, onBlur, value } }) => (
                       <TextField
-                        onChangeText={handleChange("city")}
-                        onBlur={handleBlur("city")}
-                        value={values.city}
-                        label="Місто"
-                        placeholder="Введіть місто"
-                        accessibilityLabel="Місто"
-                        inputWrapperStyle={{
-                          borderWidth: 0,
-                          borderBottomWidth: 1,
-                        }}
-                        style={{
-                          marginHorizontal: 0,
-                        }}
-                        placeholderTextColor={colors.palette.gray300}
-                      />
-                      <TextField
-                        onChangeText={handleChange("street")}
-                        onBlur={handleBlur("street")}
-                        value={values.street}
-                        label="Вулиця"
-                        placeholder="Введіть вулицю"
-                        inputWrapperStyle={{
-                          borderWidth: 0,
-                          borderBottomWidth: 1,
-                        }}
-                        style={{
-                          marginHorizontal: 0,
-                        }}
-                        placeholderTextColor={colors.palette.gray300}
-                      />
-                      <TextField
-                        onChangeText={handleChange("houseNumber")}
-                        onBlur={handleBlur("houseNumber")}
-                        label="Номер будинку"
-                        placeholder="Введіть номер будинку"
-                        value={values.houseNumber}
-                        inputWrapperStyle={{
-                          borderWidth: 0,
-                          borderBottomWidth: 1,
-                        }}
-                        style={{
-                          marginHorizontal: 0,
-                        }}
-                        placeholderTextColor={colors.palette.gray300}
-                      />
-                      <TextField
-                        onChangeText={handleChange("entrance")}
-                        onBlur={handleBlur("entrance")}
+                        value={value}
+                        onBlur={onBlur}
+                        onChangeText={onChange}
                         label="Під’їзд"
                         placeholder="Введіть номер під’їзду"
-                        value={values.entrance}
                         inputWrapperStyle={{
                           borderWidth: 0,
                           borderBottomWidth: 1,
@@ -92,12 +144,18 @@ export const DeliveryMethods = () => {
                         }}
                         placeholderTextColor={colors.palette.gray300}
                       />
+                    )}
+                  />
+                  <Controller
+                    control={control}
+                    name="appartmentNumber"
+                    render={({ field: { onChange, onBlur, value } }) => (
                       <TextField
-                        onChangeText={handleChange("appartmentNumber")}
-                        onBlur={handleBlur("appartmentNumber")}
+                        value={value}
+                        onBlur={onBlur}
+                        onChangeText={onChange}
                         label="Номер квартири"
                         placeholder="Введіть номер квартири"
-                        value={values.appartmentNumber}
                         inputWrapperStyle={{
                           borderWidth: 0,
                           borderBottomWidth: 1,
@@ -107,10 +165,16 @@ export const DeliveryMethods = () => {
                         }}
                         placeholderTextColor={colors.palette.gray300}
                       />
+                    )}
+                  />
+                  <Controller
+                    control={control}
+                    name="score"
+                    render={({ field: { onChange, onBlur, value } }) => (
                       <TextField
-                        onChangeText={handleChange("score")}
-                        onBlur={handleBlur("score")}
-                        value={values.score}
+                        value={value}
+                        onBlur={onBlur}
+                        onChangeText={onChange}
                         label="Поверх"
                         placeholder="Введіть номер поверху"
                         inputWrapperStyle={{
@@ -123,10 +187,16 @@ export const DeliveryMethods = () => {
                         }}
                         placeholderTextColor={colors.palette.gray300}
                       />
+                    )}
+                  />
+                  <Controller
+                    control={control}
+                    name="code"
+                    render={({ field: { onChange, onBlur, value } }) => (
                       <TextField
-                        onChangeText={handleChange("code")}
-                        onBlur={handleBlur("code")}
-                        value={values.code}
+                        value={value}
+                        onBlur={onBlur}
+                        onChangeText={onChange}
                         label="Код домофону"
                         placeholder="Введіть код домофону"
                         inputWrapperStyle={{
@@ -139,9 +209,9 @@ export const DeliveryMethods = () => {
                         }}
                         placeholderTextColor={colors.palette.gray300}
                       />
-                    </View>
-                  )}
-                </Formik>
+                    )}
+                  />
+                </View>
               </View>
             </Tab>
             <Tab tab="Самовивіз">
@@ -190,4 +260,19 @@ const $cityText: TextStyle = {
   color: colors.palette.primary100,
   fontSize: 18,
   marginTop: 28,
+}
+
+const $inputWrapper: ViewStyle = {
+  position: "relative",
+}
+
+const $errorText: TextStyle = {
+  color: colors.error,
+  fontSize: 12,
+  position: "absolute",
+  bottom: -24,
+}
+
+const $errorInput: ViewStyle = {
+  borderColor: colors.error,
 }

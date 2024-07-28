@@ -1,17 +1,15 @@
-import { observer } from "mobx-react-lite"
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps } from "@react-navigation/native"
 import React from "react"
 import { TextStyle, View, ViewStyle } from "react-native"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { Icon, Text } from "../components"
+import { Icon } from "../components"
 import { translate } from "../i18n"
 import { CartScreen, DemoShowroomScreen, DemoDebugScreen } from "../screens"
 import { DemoPodcastListScreen } from "../screens/DemoPodcastListScreen"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
-import { useStores } from "app/models"
 import { CartTab } from "app/components/CartTab"
 
 export type DemoTabParamList = {

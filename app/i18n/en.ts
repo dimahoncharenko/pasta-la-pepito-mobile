@@ -42,10 +42,10 @@ const en = {
     hint: "Hint: you can use any email address and your favorite password :)",
   },
   demoNavigator: {
-    homeTab: "Головна",
-    cartTab: "Корзина",
-    configTab: "Налаштування",
-    debugTab: "Дебаг",
+    homeTab: "Home",
+    cartTab: "Cart",
+    configTab: "Config",
+    debugTab: "Debug",
   },
   demoCommunityScreen: {
     title: "Connect with the community",
