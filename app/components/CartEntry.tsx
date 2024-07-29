@@ -13,6 +13,12 @@ type Props = {
     imageSrc: string
     price: number
     quantity: number
+    selectedIngredients?: {
+      name: string
+      mass: number
+      price: number
+      imageSrc: any
+    }[]
   }
 }
 export const CartEntry = observer(({ entry }: Props) => {
