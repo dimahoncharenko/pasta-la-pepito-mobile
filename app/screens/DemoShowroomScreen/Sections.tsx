@@ -6,33 +6,37 @@ import { Features } from "app/components/Features"
 import { Map } from "app/components/Map"
 import { InstaFeed } from "app/components/InstaFeed"
 
-const DATA = [
+type Props = {
+  navigateToMenu: () => void
+}
+
+const DATA = (navigateToMenu: Props["navigateToMenu"]) => [
   {
     id: 0,
     component: Hero,
   },
   {
     id: 1,
-    component: Introduction,
+    component: Introduction.bind(null, { navigateToMenu }),
   },
   {
     id: 2,
     component: Features,
   },
-  // {
-  //   id: 3,
-  //   component: Map,
-  // },
+  {
+    id: 3,
+    component: Map,
+  },
   {
     id: 4,
     component: InstaFeed,
   },
 ]
 
-export const Sections = () => {
+export const Sections = ({ navigateToMenu }: Props) => {
   return (
     <SafeAreaView>
-      <FlatList data={DATA} renderItem={({ item }) => <item.component />} />
+      <FlatList data={DATA(navigateToMenu)} renderItem={({ item }) => <item.component />} />
     </SafeAreaView>
   )
 }

@@ -10,7 +10,8 @@ import { CartScreen, DemoShowroomScreen, DemoDebugScreen } from "../screens"
 import { DemoPodcastListScreen } from "../screens/DemoPodcastListScreen"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
-import { CartTab } from "app/components/CartTab"
+import { observer } from "mobx-react-lite"
+import { useStores } from "app/models"
 
 export type DemoTabParamList = {
   CartScreen: undefined
@@ -38,8 +39,9 @@ const Tab = createBottomTabNavigator<DemoTabParamList>()
  * More info: https://reactnavigation.org/docs/bottom-tab-navigator/
  * @returns {JSX.Element} The rendered `DemoNavigator`.
  */
-export const DemoNavigator = () => {
+export const DemoNavigator = observer(() => {
   const { bottom } = useSafeAreaInsets()
+  const { cartStore } = useStores()
 
   return (
     <Tab.Navigator
@@ -69,10 +71,11 @@ export const DemoNavigator = () => {
         component={CartScreen}
         options={{
           tabBarLabel: translate("demoNavigator.cartTab"),
+          tabBarBadge: cartStore.getEntriesCount > 0 ? cartStore.getEntriesCount : undefined,
+          tabBarBadgeStyle: { backgroundColor: colors.palette.primary100 },
           tabBarIcon: ({ focused }) => (
             <View style={{ position: "relative" }}>
               <Icon icon="cart" color={focused ? colors.main : undefined} size={30} />
-              <CartTab />
             </View>
           ),
         }}
@@ -102,7 +105,7 @@ export const DemoNavigator = () => {
       />
     </Tab.Navigator>
   )
-}
+})
 
 const $tabBar: ViewStyle = {
   backgroundColor: colors.background,

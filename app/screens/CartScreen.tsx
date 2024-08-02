@@ -1,6 +1,7 @@
-import React, { FC } from "react"
 import { TextStyle, View, ViewStyle } from "react-native"
+import { observer } from "mobx-react-lite"
 import { useForm } from "react-hook-form"
+import React, { FC } from "react"
 
 import { Button, EmptyState, Icon, Screen, Text } from "../components"
 import { DemoTabScreenProps } from "../navigators/DemoNavigator"
@@ -8,7 +9,6 @@ import { colors, spacing, typography } from "../theme"
 
 import { CartList } from "app/components/CartList"
 import { CartBilling } from "app/components/CartBilling"
-import { observer } from "mobx-react-lite"
 import { useStores } from "app/models"
 import { DeliveryMethods } from "app/components/DeliveryMethods"
 
@@ -35,8 +35,6 @@ export const CartScreen: FC<DemoTabScreenProps<"CartScreen">> = observer(functio
     console.log("Submitted: ", data)
   }
 
-  console.log("CartScreen (errors): ", errors)
-
   if (!cartStore.getEntriesCount)
     return (
       <View style={$emptyContainer}>
@@ -48,8 +46,6 @@ export const CartScreen: FC<DemoTabScreenProps<"CartScreen">> = observer(functio
         />
       </View>
     )
-
-  console.log("Cart Screen: ", JSON.stringify(cartStore.getAllEntries))
 
   return (
     <Screen preset="scroll" contentContainerStyle={$container} safeAreaEdges={["top"]}>

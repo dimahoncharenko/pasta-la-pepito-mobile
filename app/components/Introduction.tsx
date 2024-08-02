@@ -1,9 +1,14 @@
 import { View } from "react-native"
+
 import { Text } from "./Text"
 import { colors, typography } from "app/theme"
 import { Button } from "./Button"
 
-export const Introduction = () => {
+type Props = {
+  navigateToMenu: () => void
+}
+
+export const Introduction = ({ navigateToMenu }: Props) => {
   return (
     <View style={{ display: "flex", alignItems: "center", paddingHorizontal: 24 }}>
       <Text
@@ -36,6 +41,7 @@ export const Introduction = () => {
         }}
         textStyle={{ color: "white" }}
         pressedStyle={{ backgroundColor: colors.main }}
+        onPress={navigateToMenu}
       >
         Подивитися меню
       </Button>

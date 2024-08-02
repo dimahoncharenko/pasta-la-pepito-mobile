@@ -2,6 +2,7 @@ export * from "./WelcomeScreen"
 
 export * from "./LoginScreen"
 export * from "./CartScreen"
+export * from "./AboutUs"
 export * from "./DemoDebugScreen"
 export * from "./DemoShowroomScreen/DemoShowroomScreen"
 

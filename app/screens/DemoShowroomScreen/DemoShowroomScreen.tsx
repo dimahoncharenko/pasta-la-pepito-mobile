@@ -9,6 +9,8 @@ import { colors, spacing } from "../../theme"
 import { useSafeAreaInsetsStyle } from "../../utils/useSafeAreaInsetsStyle"
 import * as Demos from "./demos"
 import { Sections } from "./Sections"
+import { AppStackParamList } from "app/navigators"
+import { screenPathMap } from "app/helpers/homePage.helpers"
 
 export interface Demo {
   name: string
@@ -20,6 +22,7 @@ interface DemoListItem {
   item: { name: string; useCases: string[] }
   sectionIndex: number
   handleScroll?: (sectionIndex: number, itemIndex?: number) => void
+  navigate: (path: any) => void
 }
 
 const slugify = (str: string) =>
@@ -51,7 +54,7 @@ const WebListItem: FC<DemoListItem> = ({ item, sectionIndex }) => {
   )
 }
 
-const NativeListItem: FC<DemoListItem> = ({ item, sectionIndex, handleScroll }) => (
+const NativeListItem: FC<DemoListItem> = ({ item, sectionIndex, handleScroll, navigate }) => (
   <View>
     <Text
       onPress={() => handleScroll?.(sectionIndex)}
@@ -64,7 +67,7 @@ const NativeListItem: FC<DemoListItem> = ({ item, sectionIndex, handleScroll }) 
       <ListItem
         key={`section${sectionIndex}-${u}`}
         textStyle={{ color: "white" }}
-        onPress={() => handleScroll?.(sectionIndex, index + 1)}
+        onPress={() => navigate(screenPathMap[u])}
         text={u}
         rightIcon={isRTL ? "caretLeft" : "caretRight"}
         rightIconColor="white"
@@ -128,6 +131,8 @@ export const DemoShowroomScreen: FC<DemoTabScreenProps<"DemoShowroom">> =
 
     const $drawerInsets = useSafeAreaInsetsStyle(["top"])
 
+    const navigateToMenu = () => _props.navigation.navigate("DemoPodcastList")
+
     return (
       <Drawer
         open={open}
@@ -143,6 +148,7 @@ export const DemoShowroomScreen: FC<DemoTabScreenProps<"DemoShowroom">> =
             <View style={{ display: "flex", paddingHorizontal: 24 }}>
               <ShowroomListItem
                 sectionIndex={0}
+                navigate={_props.navigation.navigate}
                 item={{
                   name: "Корисні лінки",
                   useCases: [
@@ -159,7 +165,7 @@ export const DemoShowroomScreen: FC<DemoTabScreenProps<"DemoShowroom">> =
           </View>
         )}
       >
-        <Sections />
+        <Sections navigateToMenu={navigateToMenu} />
       </Drawer>
     )
   }
