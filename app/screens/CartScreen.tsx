@@ -49,14 +49,16 @@ export const CartScreen: FC<DemoTabScreenProps<"CartScreen">> = observer(functio
       </View>
     )
 
+  console.log("Cart Screen: ", JSON.stringify(cartStore.getAllEntries))
+
   return (
     <Screen preset="scroll" contentContainerStyle={$container} safeAreaEdges={["top"]}>
       <Text preset="bold" style={$heading}>
         <Icon icon="caretLeft" /> Кошик
       </Text>
       <DeliveryMethods control={control} errors={errors} />
-      {/* @ts-ignore */}
-      <CartList entries={cartStore.entries} />
+
+      <CartList entries={cartStore.getAllEntries} />
       <CartBilling totalPrice={cartStore.getTotalPrice} />
       <Button
         style={$orderButton}

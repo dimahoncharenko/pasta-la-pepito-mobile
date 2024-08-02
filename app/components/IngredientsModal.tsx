@@ -7,6 +7,7 @@ import { Icon } from "./Icon"
 import { Text } from "./Text"
 import { colors, typography } from "app/theme"
 import { Dish } from "app/data/dish.data"
+import { CartEntry } from "app/models/Cart"
 
 type Props = {
   ingredients: {
@@ -20,6 +21,7 @@ type Props = {
   hideModal: () => void
   visible: boolean
   currentDish: Dish
+  addEntry: (entry: CartEntry) => void
   setIngredients: Dispatch<
     React.SetStateAction<
       {
@@ -40,11 +42,11 @@ export const IngredientsModal = ({
   visible,
   currentDish,
   clearIngredients,
+  addEntry,
 }: Props) => {
   const increaseQuantity = (name: string) => {
     const updatedIngredients = ingredients.map((ingr) => {
       if (ingr.name === name) {
-        console.log("Triggered", ingr.quantity)
         return {
           ...ingr,
           quantity: ingr.quantity + 1,
@@ -70,12 +72,21 @@ export const IngredientsModal = ({
 
   const handleAdd = () => {
     const selectedIngredients = ingredients.filter((ingr) => ingr.quantity > 0)
+
     const entry = {
       ...currentDish,
+      quantity: 1,
+      price:
+        currentDish.price +
+        selectedIngredients.reduce((acc, curr) => acc + curr.price * curr.quantity, 0),
       selectedIngredients,
     }
 
-    console.log(entry)
+    console.log("IngredientsModal: ", entry)
+    addEntry(entry)
+
+    clearIngredients()
+    hideModal()
   }
 
   return (

@@ -9,6 +9,7 @@ import { colors } from "app/theme"
 import { useStores } from "app/models"
 import { ingredients } from "app/data/ingredients.data"
 import { IngredientsModal } from "./IngredientsModal"
+import { CartEntry } from "app/models/Cart"
 
 type Props = {
   dish: Dish
@@ -28,8 +29,8 @@ export const DishCard = observer(function ({ dish }: Props) {
   const showModal = () => setVisible(true)
   const hideModal = () => setVisible(false)
 
-  const handleAddEntry = (entry: Dish) => {
-    cartStore.addEntry({ ...entry, quantity: 1 })
+  const handleAddEntry = (entry: CartEntry) => {
+    cartStore.addEntry(entry)
   }
 
   const handleClearIngredients = () => {
@@ -56,6 +57,7 @@ export const DishCard = observer(function ({ dish }: Props) {
         </View>
         <IngredientsModal
           hideModal={hideModal}
+          addEntry={handleAddEntry}
           ingredients={ingredients}
           clearIngredients={handleClearIngredients}
           visible={visible}
@@ -68,7 +70,7 @@ export const DishCard = observer(function ({ dish }: Props) {
             style={[$fixedButton, { backgroundColor: colors.palette.primary100 }]}
             textStyle={[$fixedButtonContent, { color: "white" }]}
             pressedStyle={[{ backgroundColor: colors.palette.primary300 }]}
-            onPress={() => handleAddEntry(dish)}
+            onPress={() => handleAddEntry({ ...dish, quantity: 1, selectedIngredients: [] })}
           >
             До кошика
           </Button>

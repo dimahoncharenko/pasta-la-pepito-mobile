@@ -85,7 +85,7 @@ export const DemoNavigator = () => {
           tabBarAccessibilityLabel: translate("demoNavigator.configTab"),
           tabBarLabel: translate("demoNavigator.configTab"),
           tabBarIcon: ({ focused }) => (
-            <Icon icon="settings" color={focused ? colors.main : undefined} size={30} />
+            <Icon icon="dish" color={focused ? colors.main : undefined} size={30} />
           ),
         }}
       />

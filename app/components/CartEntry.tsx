@@ -13,7 +13,7 @@ type Props = {
     imageSrc: string
     price: number
     quantity: number
-    selectedIngredients?: {
+    selectedIngredients: {
       name: string
       mass: number
       price: number
@@ -21,6 +21,7 @@ type Props = {
     }[]
   }
 }
+
 export const CartEntry = observer(({ entry }: Props) => {
   const { cartStore } = useStores()
 
@@ -40,9 +41,28 @@ export const CartEntry = observer(({ entry }: Props) => {
     <View>
       <View style={$row}>
         <Image style={$image} src={entry.imageSrc} alt={entry.name} />
-        <Text style={$name} preset="bold">
-          {entry.name}
-        </Text>
+        <View>
+          <Text style={$name} preset="bold">
+            {entry.name}
+          </Text>
+          {entry.selectedIngredients && entry.selectedIngredients.length > 0 && (
+            <>
+              <Text style={{ fontSize: 14, fontWeight: 700 }}>Додатково обрано:</Text>
+              <Text
+                style={{
+                  maxWidth: "90%",
+                  fontSize: 12,
+                  lineHeight: 14,
+                }}
+              >
+                {entry.selectedIngredients.reduce(
+                  (acc, curr) => (!acc ? curr.name : acc + ", " + curr.name),
+                  "",
+                )}
+              </Text>
+            </>
+          )}
+        </View>
       </View>
       <View style={[$row, $controllers]}>
         <Icon
@@ -75,7 +95,7 @@ export const CartEntry = observer(({ entry }: Props) => {
             +
           </Button>
         </View>
-        <Text style={$price}>{entry.price}₴</Text>
+        <Text style={$price}>{entry.price.toFixed(2)}₴</Text>
       </View>
     </View>
   )

@@ -1,11 +1,31 @@
 import { types } from "mobx-state-tree"
+
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { Dish } from "app/data/dish.data"
+
+export type CartEntry = {
+  quantity: number
+  selectedIngredients: {
+    name: string
+    mass: number
+    price: number
+    quantity: number
+    imageSrc: any
+  }[]
+} & Dish
 
 const IngredientModel = types.model("Ingredient", {
   name: types.string,
   mass: types.number,
   price: types.number,
+})
+
+const CustomIngredientModel = types.model("CustomIngredient", {
+  imageSrc: types.number,
+  mass: types.number,
+  name: types.string,
+  price: types.number,
+  quantity: types.number,
 })
 
 export const CartEntryModel = types.model("CartEntry", {
@@ -14,8 +34,9 @@ export const CartEntryModel = types.model("CartEntry", {
   mass: types.number,
   price: types.number,
   ingredients: types.array(IngredientModel),
+  selectedIngredients: types.array(CustomIngredientModel),
   imageSrc: types.string,
-  category: types.enumeration(["Pasta", "Risotto", "Soup", "Drink", "Other"]),
+  category: types.enumeration(["Pasta", "Risotto", "Soup", "Drink", "Other"] as Dish["category"][]),
   quantity: types.number,
 })
 
@@ -47,9 +68,21 @@ export const Cart = types
         }
       })
     },
-    addEntry(entry: { quantity: number } & Dish) {
-      if (store.entries.find((ent) => ent.name === entry.name)) return
-      store.entries.push(entry)
+    addEntry(entry: CartEntry) {
+      const duplicate = store.entries.find((ent) => ent.name === entry.name)
+      console.log("Add Entry param: ", entry)
+
+      if (
+        duplicate &&
+        duplicate.selectedIngredients &&
+        entry.selectedIngredients &&
+        duplicate.selectedIngredients.toString() !== entry.selectedIngredients.toString()
+      ) {
+        this.removeEntry(entry.name)
+        store.entries.push(entry)
+      } else if (!duplicate) {
+        store.entries.push(entry)
+      }
     },
     removeEntry(name: string) {
       const candidate = store.entries.findIndex((ent) => ent.name === name)
@@ -66,5 +99,8 @@ export const Cart = types
     },
     get getTotalPrice() {
       return store.entries.reduce((acc, prev) => acc + prev.quantity * prev.price, 0)
+    },
+    get getAllEntries() {
+      return store.entries
     },
   }))

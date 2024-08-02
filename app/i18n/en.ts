@@ -44,7 +44,7 @@ const en = {
   demoNavigator: {
     homeTab: "Home",
     cartTab: "Cart",
-    configTab: "Config",
+    configTab: "Menu",
     debugTab: "Debug",
   },
   demoCommunityScreen: {

@@ -1,12 +1,12 @@
 import { TextStyle, View, ViewStyle } from "react-native"
 
 import { CartEntry } from "./CartEntry"
-import { Dish } from "app/data/dish.data"
 import { Text } from "./Text"
 import { typography } from "app/theme"
+import { CartEntry as TCartEntry } from "app/models/Cart"
 
 type Props = {
-  entries: ({ quantity: number } & Dish)[]
+  entries: TCartEntry[]
 }
 export const CartList = ({ entries }: Props) => {
   return (
