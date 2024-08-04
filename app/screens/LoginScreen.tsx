@@ -1,12 +1,13 @@
 import { observer } from "mobx-react-lite"
 import React, { ComponentType, FC, useEffect, useMemo, useRef, useState } from "react"
-import { Platform, TextInput, TextStyle, ViewStyle } from "react-native"
+import { Platform, TextInput, ViewStyle, Text, View } from "react-native"
 import * as SecureStore from "expo-secure-store"
 
-import { Button, Icon, Screen, Text, TextField, TextFieldAccessoryProps } from "../components"
+import { Button, Icon, Screen, TextField, TextFieldAccessoryProps } from "../components"
 import { useStores } from "../models"
 import { AppStackScreenProps } from "../navigators"
 import { colors, spacing } from "../theme"
+import { Link } from "@react-navigation/native"
 
 interface LoginScreenProps extends AppStackScreenProps<"Login"> {}
 
@@ -16,7 +17,6 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
   const [authPassword, setAuthPassword] = useState("")
   const [isAuthPasswordHidden, setIsAuthPasswordHidden] = useState(true)
   const [isSubmitted, setIsSubmitted] = useState(false)
-  const [attemptsCount, setAttemptsCount] = useState(0)
   const {
     authenticationStore: { authEmail, setAuthEmail, setAuthToken, validationError },
   } = useStores()
@@ -26,7 +26,6 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
     // and pre-fill the form fields.
 
     if (Platform.OS === "web") return
-
     ;(async () => {
       let result = await SecureStore.getItemAsync("login-credentials")
       if (result) {
@@ -49,7 +48,6 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
 
   async function login() {
     setIsSubmitted(true)
-    setAttemptsCount(attemptsCount + 1)
 
     if (validationError) return
 
@@ -64,7 +62,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
     setAuthPassword("")
     setAuthEmail("")
 
-    // We'll mock this with a fake token.
+    // It mocks a fake token.
     setAuthToken(String(Date.now()))
   }
 
@@ -90,9 +88,9 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
       contentContainerStyle={$screenContentContainer}
       safeAreaEdges={["top", "bottom"]}
     >
-      <Text testID="login-heading" tx="loginScreen.signIn" preset="heading" style={$signIn} />
-      <Text tx="loginScreen.enterDetails" preset="subheading" style={$enterDetails} />
-      {attemptsCount > 2 && <Text tx="loginScreen.hint" size="sm" weight="light" style={$hint} />}
+      {/* <Text testID="login-heading" tx="loginScreen.signIn" preset="heading" style={$signIn} /> */}
+
+      <Text className="text-secondary-100 text-5xl font-alegreyaMedium mb-8">Sign in</Text>
 
       <TextField
         value={authEmail}
@@ -103,7 +101,18 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
         autoCorrect={false}
         keyboardType="email-address"
         labelTx="loginScreen.emailFieldLabel"
+        LabelTextProps={{ style: { color: colors.palette.gray100 } }}
         placeholderTx="loginScreen.emailFieldPlaceholder"
+        inputWrapperStyle={[
+          {
+            borderColor: colors.palette.accent300,
+            borderWidth: 3,
+            paddingVertical: 6,
+            paddingHorizontal: 2,
+            backgroundColor: colors.palette.gray100,
+            borderRadius: 8,
+          },
+        ]}
         helper={error}
         status={error ? "error" : undefined}
         onSubmitEditing={() => authPasswordInput.current?.focus()}
@@ -117,8 +126,19 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
         autoCapitalize="none"
         autoComplete="password"
         autoCorrect={false}
+        inputWrapperStyle={[
+          {
+            borderColor: colors.palette.accent300,
+            borderWidth: 3,
+            paddingVertical: 6,
+            paddingHorizontal: 2,
+            backgroundColor: colors.palette.gray100,
+            borderRadius: 8,
+          },
+        ]}
         secureTextEntry={isAuthPasswordHidden}
         labelTx="loginScreen.passwordFieldLabel"
+        LabelTextProps={{ style: { color: colors.palette.gray100 } }}
         placeholderTx="loginScreen.passwordFieldPlaceholder"
         onSubmitEditing={login}
         RightAccessory={PasswordRightAccessory}
@@ -127,10 +147,22 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
       <Button
         testID="login-button"
         tx="loginScreen.tapToSignIn"
-        style={$tapButton}
         preset="reversed"
+        style={{
+          backgroundColor: colors.palette.primary300,
+          borderRadius: 8,
+          paddingVertical: 16,
+          paddingHorizontal: 20,
+          marginTop: 16,
+        }}
         onPress={login}
       />
+      <View className="flex flex-row gap-1 mt-5 justify-center">
+        <Text className="text-sm font-interMedium text-gray-100">Don't have an account?</Text>
+        <Link to="/sign-up">
+          <Text className="text-sm font-interMedium text-orange-300">Signup</Text>
+        </Link>
+      </View>
     </Screen>
   )
 })
@@ -138,25 +170,12 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
 const $screenContentContainer: ViewStyle = {
   paddingVertical: spacing.xxl,
   paddingHorizontal: spacing.lg,
-}
-
-const $signIn: TextStyle = {
-  marginBottom: spacing.sm,
-}
-
-const $enterDetails: TextStyle = {
-  marginBottom: spacing.lg,
-}
-
-const $hint: TextStyle = {
-  color: colors.main,
-  marginBottom: spacing.md,
+  backgroundColor: colors.palette.primary200,
+  display: "flex",
+  justifyContent: "center",
+  height: "100%",
 }
 
 const $textField: ViewStyle = {
   marginBottom: spacing.lg,
-}
-
-const $tapButton: ViewStyle = {
-  marginTop: spacing.xs,
 }

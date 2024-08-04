@@ -41,6 +41,11 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
                         <TextField
                           value={value}
                           onBlur={onBlur}
+                          onFocus={() => {
+                            if (errors.city) {
+                              control._setErrors({ ...errors, city: undefined })
+                            }
+                          }}
                           onChangeText={onChange}
                           label="Місто"
                           placeholder="Введіть місто"
@@ -70,6 +75,11 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
                         <TextField
                           value={value}
                           onBlur={onBlur}
+                          onFocus={() => {
+                            if (errors.street) {
+                              control._setErrors({ ...errors, street: undefined })
+                            }
+                          }}
                           label="Вулиця"
                           placeholder="Введіть вулицю"
                           onChangeText={onChange}
@@ -103,6 +113,11 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
                           value={value}
                           onBlur={onBlur}
                           onChangeText={onChange}
+                          onFocus={() => {
+                            if (errors.houseNumber) {
+                              control._setErrors({ ...errors, houseNumber: undefined })
+                            }
+                          }}
                           label="Номер будинку"
                           placeholder="Введіть номер будинку"
                           inputWrapperStyle={[

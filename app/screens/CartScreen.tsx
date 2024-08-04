@@ -1,7 +1,13 @@
 import { TextStyle, View, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
 import { useForm } from "react-hook-form"
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
+import Animated, {
+  SharedValue,
+  WithTimingConfig,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated"
 
 import { Button, EmptyState, Icon, Screen, Text } from "../components"
 import { DemoTabScreenProps } from "../navigators/DemoNavigator"
@@ -11,9 +17,23 @@ import { CartList } from "app/components/CartList"
 import { CartBilling } from "app/components/CartBilling"
 import { useStores } from "app/models"
 import { DeliveryMethods } from "app/components/DeliveryMethods"
+import { CheckoutForm } from "app/components/CheckoutForm"
+
+type ViewState = "Cart" | "Checkout"
 
 export const CartScreen: FC<DemoTabScreenProps<"CartScreen">> = observer(function (_props) {
   const { cartStore } = useStores()
+  const [view, setView] = useState<ViewState>("Cart")
+  const fadeAnimFirstView = useSharedValue(1)
+  const fadeAnimSecondView = useSharedValue(0)
+
+  const fadeIn = (anim: SharedValue<number>, userConfig?: WithTimingConfig) => {
+    anim.value = withTiming(1, userConfig)
+  }
+
+  const fadeOut = (anim: SharedValue<number>, userConfig?: WithTimingConfig) => {
+    anim.value = withTiming(0, userConfig)
+  }
 
   const {
     control,
@@ -31,9 +51,15 @@ export const CartScreen: FC<DemoTabScreenProps<"CartScreen">> = observer(functio
     },
   })
 
-  const handleSubmitForm = (data: typeof control._formValues) => {
-    console.log("Submitted: ", data)
-  }
+  useEffect(() => {
+    if (view === "Cart") {
+      fadeIn(fadeAnimFirstView, { duration: 700 })
+      fadeOut(fadeAnimSecondView, { duration: 700 })
+    } else {
+      fadeOut(fadeAnimFirstView, { duration: 700 })
+      fadeIn(fadeAnimSecondView, { duration: 700 })
+    }
+  }, [view])
 
   if (!cartStore.getEntriesCount)
     return (
@@ -47,26 +73,66 @@ export const CartScreen: FC<DemoTabScreenProps<"CartScreen">> = observer(functio
       </View>
     )
 
+  const handleSubmitForm = (data: typeof control._formValues) => {
+    console.log("Submitted: ", data)
+    setView("Checkout")
+  }
+
+  const handleReturnToMenu = () => _props.navigation.navigate("DemoPodcastList")
+
+  const SelectedView = (view: ViewState) => {
+    switch (view) {
+      case "Cart":
+        return (
+          <Animated.View
+            style={{
+              opacity: fadeAnimFirstView,
+            }}
+          >
+            <Text preset="bold" style={$heading}>
+              <Icon icon="caretLeft" /> Кошик
+            </Text>
+            <DeliveryMethods control={control} errors={errors} />
+            <CartList entries={cartStore.getAllEntries} />
+            <CartBilling totalPrice={cartStore.getTotalPrice} />
+            <Button
+              style={$orderButton}
+              pressedStyle={$orderButtonHover}
+              onPress={handleSubmit(handleSubmitForm)}
+              textStyle={{ color: "white" }}
+            >
+              Оформити замовлення
+            </Button>
+            <Button
+              onPress={handleReturnToMenu}
+              style={$returnButton}
+              textStyle={{ color: colors.palette.primary100 }}
+            >
+              Повернутись до меню
+            </Button>
+          </Animated.View>
+        )
+      case "Checkout":
+        return (
+          <Animated.View
+            style={{
+              opacity: fadeAnimSecondView,
+            }}
+          >
+            <CheckoutForm
+              handleReturn={() => {
+                handleReturnToMenu()
+                setView("Cart")
+              }}
+            />
+          </Animated.View>
+        )
+    }
+  }
+
   return (
     <Screen preset="scroll" contentContainerStyle={$container} safeAreaEdges={["top"]}>
-      <Text preset="bold" style={$heading}>
-        <Icon icon="caretLeft" /> Кошик
-      </Text>
-      <DeliveryMethods control={control} errors={errors} />
-
-      <CartList entries={cartStore.getAllEntries} />
-      <CartBilling totalPrice={cartStore.getTotalPrice} />
-      <Button
-        style={$orderButton}
-        pressedStyle={$orderButtonHover}
-        onPress={handleSubmit(handleSubmitForm)}
-        textStyle={{ color: "white" }}
-      >
-        Оформити замовлення
-      </Button>
-      <Button style={$returnButton} textStyle={{ color: colors.palette.primary100 }}>
-        Повернутись до меню
-      </Button>
+      {SelectedView(view)}
     </Screen>
   )
 })

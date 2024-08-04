@@ -1,6 +1,5 @@
-import { View } from "react-native"
+import { View, Text } from "react-native"
 
-import { Text } from "./Text"
 import { colors, typography } from "app/theme"
 import { Button } from "./Button"
 
@@ -10,9 +9,8 @@ type Props = {
 
 export const Introduction = ({ navigateToMenu }: Props) => {
   return (
-    <View style={{ display: "flex", alignItems: "center", paddingHorizontal: 24 }}>
+    <View className="flex items-center px-6">
       <Text
-        preset="heading"
         style={{
           color: colors.palette.primary300,
           fontFamily: typography.fonts.alegreyaSC.medium,
@@ -24,10 +22,7 @@ export const Introduction = ({ navigateToMenu }: Props) => {
       >
         Pasta La Pepito
       </Text>
-      <Text
-        preset="subheading"
-        style={{ textAlign: "center", fontSize: 16, lineHeight: 22, paddingHorizontal: 10 }}
-      >
+      <Text className="text-center text-base leading-[22px] px-[10px]">
         Відчуйте аромат і неперевершений смак наших італійських страв, якими тепер можна
         насолоджуватися прямо вдома
       </Text>
@@ -39,8 +34,8 @@ export const Introduction = ({ navigateToMenu }: Props) => {
           backgroundColor: colors.palette.primary100,
           borderWidth: 0,
         }}
-        textStyle={{ color: "white" }}
         pressedStyle={{ backgroundColor: colors.main }}
+        textStyle={{ color: colors.palette.gray100 }}
         onPress={navigateToMenu}
       >
         Подивитися меню
