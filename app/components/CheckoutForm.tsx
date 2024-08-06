@@ -7,6 +7,9 @@ import { Button } from "./Button"
 import { BlockButton } from "./BlockButton"
 import { UnsavedChangesContext } from "app/context/unsaved.context"
 import { useContext, useEffect } from "react"
+import { SelectDate } from "./SelectDate"
+import { SelectTime } from "./SelectTime"
+import { SelectPaymentMethod } from "./SelectPaymentMethod"
 
 type Props = {
   handleReturn: () => void
@@ -32,6 +35,8 @@ export const CheckoutForm = ({ handleReturn }: Props) => {
       date: "",
       time: "",
       paymentMethod: "",
+      cashAmount: 0,
+      withoutExchange: false,
     },
   })
 
@@ -130,6 +135,17 @@ export const CheckoutForm = ({ handleReturn }: Props) => {
             />
           )}
         />
+      </View>
+      <View className="rounded-[20px] mb-8 border border-primary-light py-6 px-[10px]">
+        <Text className="text-lg font-medium -mt-2 mb-4">Час доставки</Text>
+        <SelectDate control={control} />
+        <View className="mt-6">
+          <SelectTime control={control} />
+        </View>
+      </View>
+      <View className="rounded-[20px] mb-8 border border-primary-light py-6 px-[10px]">
+        <Text className="text-lg font-medium -mt-2 mb-4">Тип оплати</Text>
+        <SelectPaymentMethod control={control} />
       </View>
       <Button
         style={$orderButton}
