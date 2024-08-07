@@ -1,3 +1,6 @@
+import { DELIVERY_END_HOURS } from "../constants/delivery"
+import { getCurrentHours } from "./selectTime.helpers"
+
 const monthsMap: Record<string, number> = {
   Jan: 1,
   Feb: 2,
@@ -35,7 +38,9 @@ export const computeAvailableDates = () => {
     const month = match[2]
     const year = match[4]
 
-    for (let i = 0; i < 7; i++) {
+    // if it's late for delivery, then omit today
+    const currentHours = getCurrentHours()
+    for (let i = Number(currentHours) >= DELIVERY_END_HOURS ? 1 : 0; i < 7; i++) {
       const date = new Date(parseInt(year), monthsMap[month] - 1, parseInt(day) + i)
       const dayOfWeek = daysMap[date.toLocaleString("en-US", { weekday: "short" })]
       const formattedDate = date.toLocaleString("de-DE", {
@@ -43,7 +48,7 @@ export const computeAvailableDates = () => {
         day: "2-digit",
         year: "2-digit",
       })
-      res.push(`${formattedDate} - ${dayOfWeek}`)
+      res.push(i === 0 ? "Сьогодні" : `${formattedDate} - ${dayOfWeek}`)
     }
   }
 
