@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite"
 import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
-import { useState } from "react"
+import { useState, memo } from "react"
 
 import { Dish } from "app/data/dish.data"
 import { Text } from "./Text"
@@ -20,65 +20,67 @@ const initIngredients = ingredients.map((ingr) => ({
   quantity: 0,
 }))
 
-export const DishCard = observer(function ({ dish }: Props) {
-  const { cartStore } = useStores()
-  const [ingredients, setIngredients] = useState(initIngredients)
+export const DishCard = memo(
+  observer(function ({ dish }: Props) {
+    const { cartStore } = useStores()
+    const [ingredients, setIngredients] = useState(initIngredients)
 
-  const [visible, setVisible] = useState(false)
+    const [visible, setVisible] = useState(false)
 
-  const showModal = () => setVisible(true)
-  const hideModal = () => setVisible(false)
+    const showModal = () => setVisible(true)
+    const hideModal = () => setVisible(false)
 
-  const handleAddEntry = (entry: CartEntry) => {
-    cartStore.addEntry(entry)
-  }
+    const handleAddEntry = (entry: CartEntry) => {
+      cartStore.addEntry(entry)
+    }
 
-  const handleClearIngredients = () => {
-    setIngredients(initIngredients)
-  }
+    const handleClearIngredients = () => {
+      setIngredients(initIngredients)
+    }
 
-  return (
-    <View style={$cardContainer}>
-      <Image src={dish.imageSrc} style={$image} resizeMode="cover" />
-      <View style={$content}>
-        <Text style={$dishName} preset="bold">
-          {dish.name}
-        </Text>
-        <Text style={$description}>{dish.description}</Text>
-        <View style={$row}>
-          <Text style={$mass}>Вага: {dish.mass}</Text>
-          <Button
-            style={[$fixedButton, { borderColor: colors.palette.primary100, borderWidth: 1 }]}
-            textStyle={[$fixedButtonContent, { color: colors.palette.primary100 }]}
-            onPress={showModal}
-          >
-            Додати інгредієнти
-          </Button>
-        </View>
-        <IngredientsModal
-          hideModal={hideModal}
-          addEntry={handleAddEntry}
-          ingredients={ingredients}
-          clearIngredients={handleClearIngredients}
-          visible={visible}
-          currentDish={dish}
-          setIngredients={setIngredients}
-        />
-        <View style={[$row, { marginTop: 16 }]}>
-          <Text style={$price}>{dish.price}₴</Text>
-          <Button
-            style={[$fixedButton, { backgroundColor: colors.palette.primary100 }]}
-            textStyle={[$fixedButtonContent, { color: "white" }]}
-            pressedStyle={[{ backgroundColor: colors.palette.primary300 }]}
-            onPress={() => handleAddEntry({ ...dish, quantity: 1, selectedIngredients: [] })}
-          >
-            До кошика
-          </Button>
+    return (
+      <View style={$cardContainer}>
+        <Image src={dish.imageSrc} style={$image} resizeMode="cover" />
+        <View style={$content}>
+          <Text style={$dishName} preset="bold">
+            {dish.name}
+          </Text>
+          <Text style={$description}>{dish.description}</Text>
+          <View style={$row}>
+            <Text style={$mass}>Вага: {dish.mass}</Text>
+            <Button
+              style={[$fixedButton, { borderColor: colors.palette.primary100, borderWidth: 1 }]}
+              textStyle={[$fixedButtonContent, { color: colors.palette.primary100 }]}
+              onPress={showModal}
+            >
+              Додати інгредієнти
+            </Button>
+          </View>
+          <IngredientsModal
+            hideModal={hideModal}
+            addEntry={handleAddEntry}
+            ingredients={ingredients}
+            clearIngredients={handleClearIngredients}
+            visible={visible}
+            currentDish={dish}
+            setIngredients={setIngredients}
+          />
+          <View style={[$row, { marginTop: 16 }]}>
+            <Text style={$price}>{dish.price}₴</Text>
+            <Button
+              style={[$fixedButton, { backgroundColor: colors.palette.primary100 }]}
+              textStyle={[$fixedButtonContent, { color: "white" }]}
+              pressedStyle={[{ backgroundColor: colors.palette.primary300 }]}
+              onPress={() => handleAddEntry({ ...dish, quantity: 1, selectedIngredients: [] })}
+            >
+              До кошика
+            </Button>
+          </View>
         </View>
       </View>
-    </View>
-  )
-})
+    )
+  }),
+)
 
 const $cardContainer: ViewStyle = {
   borderRadius: 30,

@@ -46,7 +46,7 @@ export const SelectDate = ({ control }: Props) => {
             }}
             onBlur={onBlur}
           >
-            {availableDates.map((date, index) => (
+            {availableDates.map((date) => (
               <Picker.Item key={date} label={date} value={date} />
             ))}
           </Picker>

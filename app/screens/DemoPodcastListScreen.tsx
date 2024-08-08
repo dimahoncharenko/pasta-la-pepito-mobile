@@ -3,20 +3,17 @@ import { TextStyle, ViewStyle } from "react-native"
 
 import { Icon, Screen, Text } from "../components"
 import { DemoTabScreenProps } from "../navigators/DemoNavigator"
-import { DishCard } from "app/components/DishCard"
-import { menu } from "app/data/dish.data"
 import { spacing, typography } from "app/theme"
+import { DishesDisplay } from "app/components/DishesDisplay"
 
 export const DemoPodcastListScreen: FC<DemoTabScreenProps<"DemoPodcastList">> =
   function DemoPodcastListScreen(_props) {
     return (
-      <Screen preset="scroll" contentContainerStyle={$container} safeAreaEdges={["top"]}>
+      <Screen preset="fixed" contentContainerStyle={$container} safeAreaEdges={["top"]}>
         <Text preset="bold" style={$heading}>
           <Icon icon="caretLeft" /> Наше меню
         </Text>
-        {menu.map((dish, index) => (
-          <DishCard key={index} dish={dish} />
-        ))}
+        <DishesDisplay />
       </Screen>
     )
   }

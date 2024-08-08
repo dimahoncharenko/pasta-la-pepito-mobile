@@ -1,7 +1,7 @@
 import { Control, Controller } from "react-hook-form"
 import { Text } from "react-native"
 import { View } from "react-native"
-import { Checkbox, RadioButton, TextInput } from "react-native-paper"
+import { Checkbox, RadioButton } from "react-native-paper"
 import { TextField } from "./TextField"
 import { colors } from "app/theme"
 
