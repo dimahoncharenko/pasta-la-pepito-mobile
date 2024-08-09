@@ -1,5 +1,5 @@
 import { Controller, useForm } from "react-hook-form"
-import { Text, View, ViewStyle } from "react-native"
+import { View, ViewStyle } from "react-native"
 
 import { TextField } from "./TextField"
 import { colors, spacing } from "app/theme"
@@ -10,6 +10,8 @@ import { useContext, useEffect } from "react"
 import { SelectDate } from "./SelectDate"
 import { SelectTime } from "./SelectTime"
 import { SelectPaymentMethod } from "./SelectPaymentMethod"
+import { Text } from "./Text"
+import { translate } from "app/i18n"
 
 type Props = {
   handleReturn: () => void
@@ -49,9 +51,15 @@ export const CheckoutForm = ({ handleReturn }: Props) => {
 
   return (
     <>
-      <Text className="font-alegreyaMedium text-center text-[28px] mb-8">Оплата замовника</Text>
+      <Text
+        className="font-alegreyaMedium text-center text-[24px] mb-8"
+        tx="screenHeaders.checkout"
+      />
       <View className="rounded-[20px] mb-8 border border-primary-light py-6 px-[10px]">
-        <Text className="text-lg font-medium -mt-2 mb-4">Контакти замовника</Text>
+        <Text
+          className="text-lg font-medium -mt-2 mb-4"
+          tx="cartScreen.checkoutSection.contacts.title"
+        />
         <Controller
           name="name"
           control={control}
@@ -61,8 +69,9 @@ export const CheckoutForm = ({ handleReturn }: Props) => {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
-              label="Ім'я"
-              placeholder="Ваше ім'я"
+              labelTx="cartScreen.checkoutSection.contacts.fields.name"
+              placeholderTx="cartScreen.checkoutSection.contacts.fieldsPlaceholders.name"
+              accessibilityLabel={translate("cartScreen.checkoutSection.contacts.fields.name")}
               inputWrapperStyle={[
                 {
                   borderWidth: 0,
@@ -89,8 +98,9 @@ export const CheckoutForm = ({ handleReturn }: Props) => {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
-              label="Телефон"
-              placeholder="380XXXXXXXXX"
+              labelTx="cartScreen.checkoutSection.contacts.fields.phone"
+              placeholderTx="cartScreen.checkoutSection.contacts.fieldsPlaceholders.phone"
+              accessibilityLabel={translate("cartScreen.checkoutSection.contacts.fields.phone")}
               inputWrapperStyle={[
                 {
                   borderWidth: 0,
@@ -117,8 +127,9 @@ export const CheckoutForm = ({ handleReturn }: Props) => {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
-              label="Email"
-              placeholder="Ваш email"
+              labelTx="cartScreen.checkoutSection.contacts.fields.email"
+              placeholderTx="cartScreen.checkoutSection.contacts.fieldsPlaceholders.email"
+              accessibilityLabel={translate("cartScreen.checkoutSection.contacts.fields.email")}
               inputWrapperStyle={[
                 {
                   borderWidth: 0,
@@ -137,14 +148,20 @@ export const CheckoutForm = ({ handleReturn }: Props) => {
         />
       </View>
       <View className="rounded-[20px] mb-8 border border-primary-light py-6 px-[10px]">
-        <Text className="text-lg font-medium -mt-2 mb-4">Час доставки</Text>
+        <Text
+          className="text-lg font-medium -mt-2 mb-4"
+          tx="cartScreen.checkoutSection.deliveryTime.title"
+        />
         <SelectDate control={control} />
         <View className="mt-6">
           <SelectTime control={control} />
         </View>
       </View>
       <View className="rounded-[20px] mb-8 border border-primary-light py-6 px-[10px]">
-        <Text className="text-lg font-medium -mt-2 mb-4">Тип оплати</Text>
+        <Text
+          className="text-lg font-medium -mt-2 mb-4"
+          tx="cartScreen.checkoutSection.paymentMethods.title"
+        />
         <SelectPaymentMethod control={control} />
       </View>
       <Button
@@ -152,9 +169,8 @@ export const CheckoutForm = ({ handleReturn }: Props) => {
         pressedStyle={$orderButtonHover}
         onPress={handleSubmit(handleSubmitForm)}
         textStyle={{ color: "white" }}
-      >
-        Оформити замовлення
-      </Button>
+        tx="common.orderButton"
+      />
       <BlockButton
         onPress={() => {
           handleReturn()
@@ -163,7 +179,7 @@ export const CheckoutForm = ({ handleReturn }: Props) => {
         style={[$returnButton]}
         textStyle={{ color: colors.palette.primary100, fontSize: 16, paddingVertical: 12 }}
       >
-        Повернутись до меню
+        {translate("common.menuButton")}
       </BlockButton>
     </>
   )

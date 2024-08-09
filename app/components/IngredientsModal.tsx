@@ -82,7 +82,6 @@ export const IngredientsModal = ({
       selectedIngredients,
     }
 
-    console.log("IngredientsModal: ", entry)
     addEntry(entry)
 
     clearIngredients()
@@ -194,17 +193,15 @@ export const IngredientsModal = ({
             ]}
             textStyle={[$fixedButtonContent, { color: colors.palette.primary100 }]}
             onPress={clearIngredients}
-          >
-            Очистити
-          </Button>
+            tx={"common.clearButton"}
+          />
           <Button
             style={[$fixedButton, { backgroundColor: colors.palette.primary100, width: "100%" }]}
             textStyle={[$fixedButtonContent, { color: "white" }]}
             pressedStyle={[{ backgroundColor: colors.palette.primary300 }]}
             onPress={handleAdd}
-          >
-            До кошика
-          </Button>
+            tx={"common.cartButton"}
+          />
         </ScrollView>
       </Modal>
     </Portal>

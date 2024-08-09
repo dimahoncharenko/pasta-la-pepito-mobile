@@ -2,7 +2,8 @@ import { Picker } from "@react-native-picker/picker"
 import { availableTimes } from "app/helpers/selectTime.helpers"
 import { colors } from "app/theme"
 import { Control, Controller } from "react-hook-form"
-import { Text, View } from "react-native"
+import { View } from "react-native"
+import { Text } from "./Text"
 
 type Props = {
   control: Control<
@@ -35,7 +36,10 @@ export const SelectTime = ({ control }: Props) => {
             borderBottomColor: colors.palette.gray300,
           }}
         >
-          <Text className="-mb-1 text-sm">Час</Text>
+          <Text
+            className="-mb-1 text-sm"
+            tx="cartScreen.checkoutSection.deliveryTime.fields.time"
+          />
           <Picker
             renderToHardwareTextureAndroid={false}
             style={{

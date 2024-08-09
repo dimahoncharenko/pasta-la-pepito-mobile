@@ -1,7 +1,8 @@
-import { View, Text } from "react-native"
+import { View } from "react-native"
 
 import { colors, typography } from "app/theme"
 import { Button } from "./Button"
+import { Text } from "./Text"
 
 type Props = {
   navigateToMenu: () => void
@@ -22,10 +23,10 @@ export const Introduction = ({ navigateToMenu }: Props) => {
       >
         Pasta La Pepito
       </Text>
-      <Text className="text-center text-base leading-[22px] px-[10px]">
-        Відчуйте аромат і неперевершений смак наших італійських страв, якими тепер можна
-        насолоджуватися прямо вдома
-      </Text>
+      <Text
+        className="text-center text-base leading-[22px] px-[10px]"
+        tx={"homeScreen.introduction"}
+      />
       <Button
         style={{
           marginTop: 24,
@@ -37,9 +38,8 @@ export const Introduction = ({ navigateToMenu }: Props) => {
         pressedStyle={{ backgroundColor: colors.main }}
         textStyle={{ color: colors.palette.gray100 }}
         onPress={navigateToMenu}
-      >
-        Подивитися меню
-      </Button>
+        tx={"common.menuButton"}
+      />
     </View>
   )
 }

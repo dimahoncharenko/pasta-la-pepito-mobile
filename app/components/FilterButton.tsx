@@ -1,4 +1,5 @@
 import { Picker } from "@react-native-picker/picker"
+import { translate } from "app/i18n"
 import { Control, Controller } from "react-hook-form"
 
 type Props = {
@@ -27,12 +28,12 @@ export const FilterButton = ({ control }: Props) => {
           }}
           renderToHardwareTextureAndroid={false}
         >
-          <Picker.Item label="Все меню" value="" />
-          <Picker.Item label="Паста" value="Pasta" />
-          <Picker.Item label="Різотто" value="Risotto" />
-          <Picker.Item label="Супи" value="Soup" />
-          <Picker.Item label="Напої" value="Drink" />
-          <Picker.Item label="Інше" value="Other" />
+          <Picker.Item label={translate("categories.all")} value="" />
+          <Picker.Item label={translate("categories.pasta")} value="Pasta" />
+          <Picker.Item label={translate("categories.risotto")} value="Risotto" />
+          <Picker.Item label={translate("categories.soups")} value="Soup" />
+          <Picker.Item label={translate("categories.drinks")} value="Drink" />
+          <Picker.Item label={translate("categories.other")} value="Other" />
         </Picker>
       )}
     />

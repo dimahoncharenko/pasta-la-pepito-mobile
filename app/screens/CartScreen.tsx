@@ -10,7 +10,7 @@ import Animated, {
 } from "react-native-reanimated"
 
 import { Button, EmptyState, Icon, Screen, Text } from "../components"
-import { DemoTabScreenProps } from "../navigators/DemoNavigator"
+import { TabScreenProps } from "../navigators/DemoNavigator"
 import { colors, spacing, typography } from "../theme"
 
 import { CartList } from "app/components/CartList"
@@ -18,10 +18,11 @@ import { CartBilling } from "app/components/CartBilling"
 import { useStores } from "app/models"
 import { DeliveryMethods } from "app/components/DeliveryMethods"
 import { CheckoutForm } from "app/components/CheckoutForm"
+import { translate } from "app/i18n"
 
 type ViewState = "Cart" | "Checkout"
 
-export const CartScreen: FC<DemoTabScreenProps<"CartScreen">> = observer(function (_props) {
+export const CartScreen: FC<TabScreenProps<"CartScreen">> = observer(function (_props) {
   const { cartStore } = useStores()
   const [view, setView] = useState<ViewState>("Cart")
   const fadeAnimFirstView = useSharedValue(1)
@@ -78,7 +79,7 @@ export const CartScreen: FC<DemoTabScreenProps<"CartScreen">> = observer(functio
     setView("Checkout")
   }
 
-  const handleReturnToMenu = () => _props.navigation.navigate("DemoPodcastList")
+  const handleReturnToMenu = () => _props.navigation.navigate("MenuList")
 
   const SelectedView = (view: ViewState) => {
     switch (view) {
@@ -90,7 +91,7 @@ export const CartScreen: FC<DemoTabScreenProps<"CartScreen">> = observer(functio
             }}
           >
             <Text preset="bold" style={$heading}>
-              <Icon icon="caretLeft" /> Кошик
+              <Icon icon="caretLeft" /> {translate("screenHeaders.cart")}
             </Text>
             <DeliveryMethods control={control} errors={errors} />
             <CartList entries={cartStore.getAllEntries} />
@@ -100,16 +101,14 @@ export const CartScreen: FC<DemoTabScreenProps<"CartScreen">> = observer(functio
               pressedStyle={$orderButtonHover}
               onPress={handleSubmit(handleSubmitForm)}
               textStyle={{ color: "white" }}
-            >
-              Оформити замовлення
-            </Button>
+              tx={"common.orderButton"}
+            />
             <Button
               onPress={handleReturnToMenu}
               style={$returnButton}
               textStyle={{ color: colors.palette.primary100 }}
-            >
-              Повернутись до меню
-            </Button>
+              tx="common.menuButton"
+            />
           </Animated.View>
         )
       case "Checkout":

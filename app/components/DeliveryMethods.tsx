@@ -7,6 +7,7 @@ import { Separator } from "./Separator"
 import { Icon } from "./Icon"
 import { colors, spacing, typography } from "app/theme"
 import { TextField } from "./TextField"
+import { translate } from "app/i18n"
 
 type TextFields = {
   city: string
@@ -28,13 +29,13 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
       <Tabs tabs={["Доставка", "Самовивіз"]}>
         {(Tab) => (
           <>
-            <Tab tab="Доставка">
+            <Tab tab={translate("cartScreen.tabs.delivery")}>
               <View style={$container}>
                 <View style={{ display: "flex", gap: 28 }}>
-                  <Text style={$formTitle}>Адреса доставки</Text>
+                  <Text style={$formTitle}>{translate("cartScreen.deliverySection.title")}</Text>
                   <Controller
                     control={control}
-                    name="city"
+                    name={"city"}
                     rules={{ required: true }}
                     render={({ field: { value, onBlur, onChange } }) => (
                       <View style={$inputWrapper}>
@@ -47,9 +48,9 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
                             }
                           }}
                           onChangeText={onChange}
-                          label="Місто"
-                          placeholder="Введіть місто"
-                          accessibilityLabel="Місто"
+                          labelTx="cartScreen.deliverySection.fields.city"
+                          placeholderTx="cartScreen.deliverySection.fieldsPlaceholders.city"
+                          accessibilityLabel={translate("cartScreen.deliverySection.fields.city")}
                           inputWrapperStyle={[
                             {
                               borderWidth: 0,
@@ -62,7 +63,11 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
                           }}
                           placeholderTextColor={errors.city ? colors.error : colors.palette.gray300}
                         />
-                        {errors.city && <Text style={$errorText}>Обов'язково введіть місто</Text>}
+                        {errors.city && (
+                          <Text style={$errorText}>
+                            {translate("cartScreen.deliverySection.fieldsErrors.city")}
+                          </Text>
+                        )}
                       </View>
                     )}
                   />
@@ -80,8 +85,9 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
                               control._setErrors({ ...errors, street: undefined })
                             }
                           }}
-                          label="Вулиця"
-                          placeholder="Введіть вулицю"
+                          labelTx="cartScreen.deliverySection.fields.street"
+                          placeholderTx="cartScreen.deliverySection.fieldsPlaceholders.street"
+                          accessibilityLabel={translate("cartScreen.deliverySection.fields.street")}
                           onChangeText={onChange}
                           inputWrapperStyle={[
                             {
@@ -98,7 +104,9 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
                           }
                         />
                         {errors.street && (
-                          <Text style={$errorText}>Обов'язково введіть вулицю</Text>
+                          <Text style={$errorText}>
+                            {translate("cartScreen.deliverySection.fieldsErrors.street")}
+                          </Text>
                         )}
                       </View>
                     )}
@@ -118,8 +126,11 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
                               control._setErrors({ ...errors, houseNumber: undefined })
                             }
                           }}
-                          label="Номер будинку"
-                          placeholder="Введіть номер будинку"
+                          labelTx="cartScreen.deliverySection.fields.houseNumber"
+                          accessibilityLabel={translate(
+                            "cartScreen.deliverySection.fields.houseNumber",
+                          )}
+                          placeholderTx="cartScreen.deliverySection.fieldsPlaceholders.houseNumber"
                           inputWrapperStyle={[
                             {
                               borderWidth: 0,
@@ -135,7 +146,9 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
                           }
                         />
                         {errors.houseNumber && (
-                          <Text style={$errorText}>Обов'язково введіть номер будинку</Text>
+                          <Text style={$errorText}>
+                            {translate("cartScreen.deliverySection.fieldsErrors.houseNumber")}
+                          </Text>
                         )}
                       </View>
                     )}
@@ -148,8 +161,9 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
                         value={value}
                         onBlur={onBlur}
                         onChangeText={onChange}
-                        label="Під’їзд"
-                        placeholder="Введіть номер під’їзду"
+                        labelTx="cartScreen.deliverySection.fields.entrance"
+                        accessibilityLabel={translate("cartScreen.deliverySection.fields.entrance")}
+                        placeholderTx="cartScreen.deliverySection.fieldsPlaceholders.entrance"
                         inputWrapperStyle={{
                           borderWidth: 0,
                           borderBottomWidth: 1,
@@ -169,8 +183,11 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
                         value={value}
                         onBlur={onBlur}
                         onChangeText={onChange}
-                        label="Номер квартири"
-                        placeholder="Введіть номер квартири"
+                        labelTx="cartScreen.deliverySection.fields.apartmentNumber"
+                        accessibilityLabel={translate(
+                          "cartScreen.deliverySection.fields.apartmentNumber",
+                        )}
+                        placeholderTx="cartScreen.deliverySection.fieldsPlaceholders.apartmentNumber"
                         inputWrapperStyle={{
                           borderWidth: 0,
                           borderBottomWidth: 1,
@@ -190,8 +207,9 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
                         value={value}
                         onBlur={onBlur}
                         onChangeText={onChange}
-                        label="Поверх"
-                        placeholder="Введіть номер поверху"
+                        labelTx="cartScreen.deliverySection.fields.story"
+                        accessibilityLabel={translate("cartScreen.deliverySection.fields.story")}
+                        placeholderTx="cartScreen.deliverySection.fieldsPlaceholders.story"
                         inputWrapperStyle={{
                           borderWidth: 0,
                           borderBottomWidth: 1,
@@ -212,8 +230,9 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
                         value={value}
                         onBlur={onBlur}
                         onChangeText={onChange}
-                        label="Код домофону"
-                        placeholder="Введіть код домофону"
+                        labelTx="cartScreen.deliverySection.fields.code"
+                        accessibilityLabel={translate("cartScreen.deliverySection.fields.code")}
+                        placeholderTx="cartScreen.deliverySection.fieldsPlaceholders.code"
                         inputWrapperStyle={{
                           borderWidth: 0,
                           borderBottomWidth: 1,
@@ -229,9 +248,9 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
                 </View>
               </View>
             </Tab>
-            <Tab tab="Самовивіз">
+            <Tab tab={translate("cartScreen.tabs.pickup")}>
               <View style={$container}>
-                <Text style={$pickupTitle}>Адреса ресторану</Text>
+                <Text style={$pickupTitle} tx="cartScreen.pickupSection.title" />
                 <View>
                   <Text style={$cityText}>
                     <Icon
@@ -239,10 +258,10 @@ export const DeliveryMethods = ({ control, errors }: Props) => {
                       style={{ marginBottom: -4, marginRight: 6 }}
                       color={colors.palette.primary100}
                     />{" "}
-                    Київ
+                    {translate("cartScreen.pickupSection.location")}
                   </Text>
                   <Separator style={{ marginBottom: spacing.xs }} />
-                  <Text>вул. Еспланадна, буд. 34/2</Text>
+                  <Text tx="cartScreen.pickupSection.address" />
                 </View>
               </View>
             </Tab>

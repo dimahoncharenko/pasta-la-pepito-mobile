@@ -17,7 +17,7 @@ import { useColorScheme } from "react-native"
 import * as Screens from "app/screens"
 import Config from "../config"
 import { useStores } from "../models"
-import { DemoNavigator, DemoTabParamList } from "./DemoNavigator"
+import { Navigator, TabParamList } from "./DemoNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { colors } from "app/theme"
 
@@ -37,7 +37,7 @@ import { colors } from "app/theme"
 export type AppStackParamList = {
   Welcome: undefined
   Login: undefined
-  Demo: NavigatorScreenParams<DemoTabParamList>
+  Home: NavigatorScreenParams<TabParamList>
   AboutUs: undefined
   Checkout: undefined
   // 🔥 Your screens go here
@@ -66,12 +66,11 @@ const AppStack = observer(function AppStack() {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, navigationBarColor: colors.background }}
-      initialRouteName={isAuthenticated ? "Demo" : "Login"}
+      initialRouteName={isAuthenticated ? "Home" : "Login"}
     >
       {isAuthenticated ? (
         <>
-          <Stack.Screen name="Demo" component={DemoNavigator} />
-          <Stack.Screen name="AboutUs" component={Screens.AboutUSScreen} />
+          <Stack.Screen name="Home" component={Navigator} />
         </>
       ) : (
         <>

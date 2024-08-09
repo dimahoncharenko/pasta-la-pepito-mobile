@@ -1,8 +1,9 @@
 import { useContext, useState } from "react"
 import { GestureResponderEvent, TextStyle } from "react-native"
-import { Button, ButtonProps, Dialog, Portal, Text } from "react-native-paper"
+import { Dialog, Portal, Text } from "react-native-paper"
 
 import { UnsavedChangesContext } from "app/context/unsaved.context"
+import { Button, ButtonProps } from "./Button"
 
 type Props = {
   children: React.ReactNode

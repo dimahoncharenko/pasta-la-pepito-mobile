@@ -1,25 +1,27 @@
 import { Image, ImageSourcePropType, View } from "react-native"
+
 import { Text } from "./Text"
+import { translate } from "app/i18n"
 
 const items: ItemProps[] = [
   {
-    title: "Безкоштовна доставка",
-    description: "При замовленні від 700 грн",
+    title: translate("homeScreen.features.delivery_title"),
+    description: translate("homeScreen.features.delivery_subtitle"),
     iconPath: require("../../assets/images/feature-1.png"),
   },
   {
-    title: "Традиційні рецепти",
-    description: "Справжня італійська кухня",
+    title: translate("homeScreen.features.recipes_title"),
+    description: translate("homeScreen.features.recipes_subtitle"),
     iconPath: require("../../assets/images/feature-2.png"),
   },
   {
-    title: "Персоналізація страв",
-    description: "Додай улюблений інгредієнт ",
+    title: translate("homeScreen.features.recipes_title"),
+    description: translate("homeScreen.features.recipes_subtitle"),
     iconPath: require("../../assets/images/feature-3.png"),
   },
   {
-    title: "Зручна оплата",
-    description: "Безготівково або готівкою",
+    title: translate("homeScreen.features.payment_title"),
+    description: translate("homeScreen.features.payment_subtitle"),
     iconPath: require("../../assets/images/feature-4.png"),
   },
 ]
@@ -55,9 +57,11 @@ export const Features = () => {
     <View
       style={{ display: "flex", alignItems: "center", paddingHorizontal: 24, paddingVertical: 12 }}
     >
-      <Text preset="heading" style={{ padding: 24, fontSize: 28 }}>
-        Наші переваги
-      </Text>
+      <Text
+        preset="heading"
+        tx={"homeScreen.features.title"}
+        style={{ padding: 24, fontSize: 28 }}
+      />
       <View>
         {items.map((item, index) => (
           <Item key={index} {...item} />

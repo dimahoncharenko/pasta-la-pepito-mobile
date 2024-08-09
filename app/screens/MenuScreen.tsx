@@ -2,21 +2,21 @@ import React, { FC } from "react"
 import { TextStyle, ViewStyle } from "react-native"
 
 import { Icon, Screen, Text } from "../components"
-import { DemoTabScreenProps } from "../navigators/DemoNavigator"
+import { TabScreenProps } from "../navigators/DemoNavigator"
 import { spacing, typography } from "app/theme"
 import { DishesDisplay } from "app/components/DishesDisplay"
+import { translate } from "app/i18n"
 
-export const DemoPodcastListScreen: FC<DemoTabScreenProps<"DemoPodcastList">> =
-  function DemoPodcastListScreen(_props) {
-    return (
-      <Screen preset="fixed" contentContainerStyle={$container} safeAreaEdges={["top"]}>
-        <Text preset="bold" style={$heading}>
-          <Icon icon="caretLeft" /> Наше меню
-        </Text>
-        <DishesDisplay />
-      </Screen>
-    )
-  }
+export const MenuScreen: FC<TabScreenProps<"MenuList">> = function DemoPodcastListScreen(_props) {
+  return (
+    <Screen preset="fixed" contentContainerStyle={$container} safeAreaEdges={["top"]}>
+      <Text preset="bold" style={$heading}>
+        <Icon icon="caretLeft" /> {translate("screenHeaders.menu")}
+      </Text>
+      <DishesDisplay />
+    </Screen>
+  )
+}
 
 const $heading: TextStyle = {
   fontSize: 28,

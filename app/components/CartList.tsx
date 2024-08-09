@@ -11,8 +11,8 @@ type Props = {
 export const CartList = ({ entries }: Props) => {
   return (
     <>
-      <Text style={$title}>Ваше замовлення</Text>
-      <Text style={$subtitle}>Мінімальна сума для безкоштовної доставки 700 грн</Text>
+      <Text style={$title} tx="cartScreen.summarySection.title" />
+      <Text style={$subtitle} tx="cartScreen.summarySection.subtitle" />
       <View style={$container}>
         {entries.map((entry, index) => (
           <CartEntry key={index} entry={entry} />

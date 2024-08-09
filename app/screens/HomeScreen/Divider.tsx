@@ -3,7 +3,7 @@ import React from "react"
 import { StyleProp, View, ViewStyle } from "react-native"
 import { colors } from "../../theme"
 
-interface DemoDividerProps {
+interface DividerProps {
   type?: "vertical" | "horizontal"
   size?: number
   style?: StyleProp<ViewStyle>
@@ -11,10 +11,10 @@ interface DemoDividerProps {
 }
 
 /**
- * @param {DemoDividerProps} props - The props for the `DemoDivider` component.
+ * @param {DividerProps} props - The props for the `DemoDivider` component.
  * @returns {JSX.Element} The rendered `DemoDivider` component.
  */
-export function DemoDivider(props: DemoDividerProps) {
+export function Divider(props: DividerProps) {
   const { type = "horizontal", size = 10, line = false, style: $styleOverride } = props
 
   return (

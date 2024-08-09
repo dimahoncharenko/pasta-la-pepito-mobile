@@ -13,15 +13,15 @@ export const CartBilling = function ({ totalPrice }: Props) {
   return (
     <View style={$container}>
       <View style={$param}>
-        <Text style={$paramText}>Товарів на суму:</Text>
+        <Text style={$paramText} tx="cartScreen.summarySection.totalTitle" />
         <Text style={$paramText}>{totalPrice.toFixed(0)}₴</Text>
       </View>
       <View style={$param}>
-        <Text style={$paramText}>Доставка:</Text>
+        <Text style={$paramText} tx="cartScreen.summarySection.deliveryTitle" />
         <Text style={$paramText}>{deliveryBilling}₴</Text>
       </View>
       <View style={$param}>
-        <Text style={$emphasizedParamText}>Сума до сплати:</Text>
+        <Text style={$emphasizedParamText} tx="cartScreen.summarySection.totalPriceTitle" />
         <Text style={$emphasizedParamText}>{(totalPrice + deliveryBilling).toFixed(0)}₴</Text>
       </View>
     </View>

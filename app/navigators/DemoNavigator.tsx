@@ -6,18 +6,18 @@ import { TextStyle, View, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon } from "../components"
 import { translate } from "../i18n"
-import { CartScreen, DemoShowroomScreen, DemoDebugScreen } from "../screens"
-import { DemoPodcastListScreen } from "../screens/DemoPodcastListScreen"
+import { CartScreen, HomeScreen, DemoDebugScreen } from "../screens"
+import { MenuScreen } from "../screens/MenuScreen"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 import { observer } from "mobx-react-lite"
 import { useStores } from "app/models"
 
-export type DemoTabParamList = {
+export type TabParamList = {
   CartScreen: undefined
-  DemoShowroom: { queryIndex?: string; itemIndex?: string }
+  HomeScreen: { queryIndex?: string; itemIndex?: string }
   DemoDebug: undefined
-  DemoPodcastList: undefined
+  MenuList: undefined
 }
 
 /**
@@ -25,12 +25,12 @@ export type DemoTabParamList = {
  *
  * More info: https://reactnavigation.org/docs/typescript/#organizing-types
  */
-export type DemoTabScreenProps<T extends keyof DemoTabParamList> = CompositeScreenProps<
-  BottomTabScreenProps<DemoTabParamList, T>,
+export type TabScreenProps<T extends keyof TabParamList> = CompositeScreenProps<
+  BottomTabScreenProps<TabParamList, T>,
   AppStackScreenProps<keyof AppStackParamList>
 >
 
-const Tab = createBottomTabNavigator<DemoTabParamList>()
+const Tab = createBottomTabNavigator<TabParamList>()
 
 /**
  * This is the main navigator for the demo screens with a bottom tab bar.
@@ -39,7 +39,7 @@ const Tab = createBottomTabNavigator<DemoTabParamList>()
  * More info: https://reactnavigation.org/docs/bottom-tab-navigator/
  * @returns {JSX.Element} The rendered `DemoNavigator`.
  */
-export const DemoNavigator = observer(() => {
+export const Navigator = observer(() => {
   const { bottom } = useSafeAreaInsets()
   const { cartStore } = useStores()
 
@@ -56,10 +56,10 @@ export const DemoNavigator = observer(() => {
       }}
     >
       <Tab.Screen
-        name="DemoShowroom"
-        component={DemoShowroomScreen}
+        name="HomeScreen"
+        component={HomeScreen}
         options={{
-          tabBarLabel: translate("demoNavigator.homeTab"),
+          tabBarLabel: translate("tabs.home"),
           tabBarIcon: ({ focused }) => (
             <Icon icon="home" color={focused ? colors.main : undefined} size={30} />
           ),
@@ -70,7 +70,7 @@ export const DemoNavigator = observer(() => {
         name="CartScreen"
         component={CartScreen}
         options={{
-          tabBarLabel: translate("demoNavigator.cartTab"),
+          tabBarLabel: translate("tabs.cart"),
           tabBarBadge: cartStore.getEntriesCount > 0 ? cartStore.getEntriesCount : undefined,
           tabBarBadgeStyle: { backgroundColor: colors.palette.primary100 },
           tabBarIcon: ({ focused }) => (
@@ -82,11 +82,11 @@ export const DemoNavigator = observer(() => {
       />
 
       <Tab.Screen
-        name="DemoPodcastList"
-        component={DemoPodcastListScreen}
+        name="MenuList"
+        component={MenuScreen}
         options={{
-          tabBarAccessibilityLabel: translate("demoNavigator.configTab"),
-          tabBarLabel: translate("demoNavigator.configTab"),
+          tabBarAccessibilityLabel: translate("tabs.menu"),
+          tabBarLabel: translate("tabs.menu"),
           tabBarIcon: ({ focused }) => (
             <Icon icon="dish" color={focused ? colors.main : undefined} size={30} />
           ),
@@ -97,7 +97,7 @@ export const DemoNavigator = observer(() => {
         name="DemoDebug"
         component={DemoDebugScreen}
         options={{
-          tabBarLabel: translate("demoNavigator.debugTab"),
+          tabBarLabel: translate("tabs.profile"),
           tabBarIcon: ({ focused }) => (
             <Icon icon="debug" color={focused ? colors.main : undefined} size={30} />
           ),

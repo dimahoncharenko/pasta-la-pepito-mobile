@@ -52,9 +52,8 @@ export const DishCard = memo(
               style={[$fixedButton, { borderColor: colors.palette.primary100, borderWidth: 1 }]}
               textStyle={[$fixedButtonContent, { color: colors.palette.primary100 }]}
               onPress={showModal}
-            >
-              Додати інгредієнти
-            </Button>
+              tx={"common.addIngredientButton"}
+            />
           </View>
           <IngredientsModal
             hideModal={hideModal}
@@ -72,9 +71,8 @@ export const DishCard = memo(
               textStyle={[$fixedButtonContent, { color: "white" }]}
               pressedStyle={[{ backgroundColor: colors.palette.primary300 }]}
               onPress={() => handleAddEntry({ ...dish, quantity: 1, selectedIngredients: [] })}
-            >
-              До кошика
-            </Button>
+              tx={"common.cartButton"}
+            />
           </View>
         </View>
       </View>

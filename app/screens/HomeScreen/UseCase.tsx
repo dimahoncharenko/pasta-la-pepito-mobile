@@ -3,7 +3,7 @@ import { TextStyle, View, ViewStyle } from "react-native"
 import { Text } from "../../components"
 import { colors, spacing, typography } from "../../theme"
 
-interface DemoUseCaseProps {
+interface UseCaseProps {
   name: string
   description?: string
   layout?: "column" | "row"
@@ -11,10 +11,10 @@ interface DemoUseCaseProps {
 }
 
 /**
- * @param {DemoUseCaseProps} props - The props for the `DemoUseCase` component.
+ * @param {UseCaseProps} props - The props for the `DemoUseCase` component.
  * @returns {JSX.Element} The rendered `DemoUseCase` component.
  */
-export function DemoUseCase(props: DemoUseCaseProps) {
+export function UseCase(props: UseCaseProps) {
   const { name, description, children, layout = "column" } = props
 
   return (

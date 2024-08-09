@@ -10,7 +10,7 @@ import { DishCard } from "./DishCard"
 export const DishesDisplay = () => {
   const [dishes, setDishes] = useState(menu)
 
-  const { control, getValues } = useForm({
+  const { control } = useForm({
     defaultValues: {
       sort: "",
       filter: "",

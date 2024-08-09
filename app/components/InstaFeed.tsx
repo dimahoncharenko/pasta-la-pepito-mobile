@@ -1,6 +1,6 @@
 import { FlatList, Image, ImageSourcePropType } from "react-native"
 import { Text } from "./Text"
-import { colors } from "app/theme"
+import { translate } from "app/i18n"
 
 const items = [
   {
@@ -17,7 +17,7 @@ const items = [
 const Item = ({ image }: { image: ImageSourcePropType }) => {
   return (
     <Image
-      style={{ height: 211, width: 211, marginHorizontal: 10, borderRadius: 24 }}
+      className="h-[211px] w-[211px] mx-[10px] rounded-3xl"
       resizeMode="cover"
       source={image}
     />
@@ -27,17 +27,16 @@ const Item = ({ image }: { image: ImageSourcePropType }) => {
 export const InstaFeed = () => {
   return (
     <>
-      <Text preset="heading" style={{ padding: 24, fontSize: 28 }}>
-        Приєднуйтесь до нас в{" "}
+      <Text preset="heading" className="p-6 text-[28px]">
+        {translate("homeScreen.instagram.title")}
         <Text
           preset="heading"
-          style={{ color: colors.palette.primary100, fontSize: 28, lineHeight: 34 }}
-        >
-          Instagram
-        </Text>
+          className="text-primary-light text-[28px] leading-[34px]"
+          tx={"homeScreen.instagram.link"}
+        />
       </Text>
       <FlatList
-        style={{ marginHorizontal: 8, marginBottom: 60 }}
+        className="mx-2 mb-[60px]"
         horizontal={true}
         data={items}
         renderItem={({ item, index }) => <Item key={index} image={item.image} />}

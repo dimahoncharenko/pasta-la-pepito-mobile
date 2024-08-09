@@ -2,7 +2,8 @@ import { Picker } from "@react-native-picker/picker"
 import { computeAvailableDates } from "app/helpers/selectDate.helpers"
 import { colors } from "app/theme"
 import { Control, Controller } from "react-hook-form"
-import { Text, TextStyle, View, ViewStyle } from "react-native"
+import { TextStyle, View, ViewStyle } from "react-native"
+import { Text } from "./Text"
 
 type Props = {
   control: Control<
@@ -30,7 +31,10 @@ export const SelectDate = ({ control }: Props) => {
       rules={{ required: true }}
       render={({ field: { onChange, onBlur, value } }) => (
         <View style={$selectContainer}>
-          <Text style={[$selectLabel, { marginBottom: -4 }]}>Дата</Text>
+          <Text
+            style={[$selectLabel, { marginBottom: -4 }]}
+            tx="cartScreen.checkoutSection.deliveryTime.fields.date"
+          />
           <Picker
             renderToHardwareTextureAndroid={false}
             style={{
