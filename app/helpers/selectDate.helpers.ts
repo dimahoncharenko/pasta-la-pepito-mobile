@@ -1,3 +1,4 @@
+import { translate } from "app/i18n"
 import { DELIVERY_END_HOURS } from "../constants/delivery"
 import { getCurrentHours } from "./selectTime.helpers"
 
@@ -17,13 +18,13 @@ const monthsMap: Record<string, number> = {
 }
 
 const daysMap: Record<string, string> = {
-  Mon: "Пн",
-  Tue: "Вт",
-  Wed: "Ср",
-  Thu: "Чт",
-  Fri: "Пт",
-  Sat: "Сб",
-  Sun: "Нд",
+  Mon: translate("cartScreen.checkoutSection.deliveryTime.days.mon"),
+  Tue: translate("cartScreen.checkoutSection.deliveryTime.days.tue"),
+  Wed: translate("cartScreen.checkoutSection.deliveryTime.days.wed"),
+  Thu: translate("cartScreen.checkoutSection.deliveryTime.days.thu"),
+  Fri: translate("cartScreen.checkoutSection.deliveryTime.days.fri"),
+  Sat: translate("cartScreen.checkoutSection.deliveryTime.days.sat"),
+  Sun: translate("cartScreen.checkoutSection.deliveryTime.days.sun"),
 }
 
 const regex = /(\w{3})\s(\w{3})\s(\d{2})\s(\d{4})/
@@ -48,7 +49,11 @@ export const computeAvailableDates = () => {
         day: "2-digit",
         year: "2-digit",
       })
-      res.push(i === 0 ? "Сьогодні" : `${formattedDate} - ${dayOfWeek}`)
+      res.push(
+        i === 0
+          ? translate("cartScreen.checkoutSection.deliveryTime.days.today")
+          : `${formattedDate} - ${dayOfWeek}`,
+      )
     }
   }
 

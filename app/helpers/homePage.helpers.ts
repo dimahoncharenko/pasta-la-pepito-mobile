@@ -1,8 +1,8 @@
 export const screenPathMap: Record<string, string> = {
-  "Про нас": "AboutUs",
-  Рецепти: "DemoShowroom",
-  Контакти: "DemoShowroom",
-  "Наш блог": "DemoShowroom",
-  Відгуки: "DemoShowroom",
-  "Політика\nконфіденційності": "DemoShowroom",
+  "Про нас": "HomeScreen",
+  Рецепти: "HomeScreen",
+  Контакти: "HomeScreen",
+  "Наш блог": "HomeScreen",
+  Відгуки: "HomeScreen",
+  "Політика\nконфіденційності": "HomeScreen",
 }

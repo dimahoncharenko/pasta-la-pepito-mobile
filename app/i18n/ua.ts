@@ -125,6 +125,7 @@ const ua = {
       deliveryTime: {
         title: "Час доставки",
         days: {
+          today: "Сьогодні",
           mon: "Пн",
           tue: "Вт",
           wed: "Ср",
