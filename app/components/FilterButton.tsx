@@ -1,41 +1,26 @@
 import { Picker } from "@react-native-picker/picker"
+import { Dish } from "app/data/dish.data"
 import { translate } from "app/i18n"
-import { Control, Controller } from "react-hook-form"
+import { useStores } from "app/models"
+import { observer } from "mobx-react-lite"
 
-type Props = {
-  control: Control<
-    {
-      sort: string
-      filter: string
-    },
-    any
-  >
-}
-
-export const FilterButton = ({ control }: Props) => {
-  console.log("FilterButton: ", control._formValues)
+export const FilterButton = observer(() => {
+  const { menuStore } = useStores()
 
   return (
-    <Controller
-      name="filter"
-      control={control}
-      render={({ field: { onChange, onBlur, value } }) => (
-        <Picker
-          selectedValue={value}
-          onBlur={onBlur}
-          onValueChange={async (val) => {
-            onChange(val)
-          }}
-          renderToHardwareTextureAndroid={false}
-        >
-          <Picker.Item label={translate("categories.all")} value="" />
-          <Picker.Item label={translate("categories.pasta")} value="Pasta" />
-          <Picker.Item label={translate("categories.risotto")} value="Risotto" />
-          <Picker.Item label={translate("categories.soups")} value="Soup" />
-          <Picker.Item label={translate("categories.drinks")} value="Drink" />
-          <Picker.Item label={translate("categories.other")} value="Other" />
-        </Picker>
-      )}
-    />
+    <Picker
+      selectedValue={menuStore.getCurrentCategory}
+      onValueChange={async (val) => {
+        menuStore.changeCategory(val as Dish["category"])
+      }}
+      renderToHardwareTextureAndroid={false}
+    >
+      <Picker.Item label={translate("categories.all")} value="All" />
+      <Picker.Item label={translate("categories.pasta")} value="Pasta" />
+      <Picker.Item label={translate("categories.risotto")} value="Risotto" />
+      <Picker.Item label={translate("categories.soups")} value="Soup" />
+      <Picker.Item label={translate("categories.drinks")} value="Drink" />
+      <Picker.Item label={translate("categories.other")} value="Other" />
+    </Picker>
   )
-}
+})
