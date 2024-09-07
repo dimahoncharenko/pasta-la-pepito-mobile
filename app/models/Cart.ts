@@ -12,13 +12,7 @@ export type CartEntry = {
     quantity: number
     imageSrc: any
   }[]
-} & Dish
-
-const IngredientModel = types.model("Ingredient", {
-  name: types.string,
-  mass: types.number,
-  price: types.number,
-})
+} & Omit<Dish, "ingredients">
 
 const CustomIngredientModel = types.model("CustomIngredient", {
   imageSrc: types.number,
@@ -33,7 +27,6 @@ export const CartEntryModel = types.model("CartEntry", {
   description: types.string,
   mass: types.number,
   price: types.number,
-  ingredients: types.array(IngredientModel),
   selectedIngredients: types.array(CustomIngredientModel),
   imageSrc: types.string,
   category: types.enumeration(["Pasta", "Risotto", "Soup", "Drink", "Other"] as Dish["category"][]),
@@ -70,7 +63,6 @@ export const Cart = types
     },
     addEntry(entry: CartEntry) {
       const duplicate = store.entries.find((ent) => ent.name === entry.name)
-      console.log("Add Entry param: ", entry)
 
       if (
         duplicate &&

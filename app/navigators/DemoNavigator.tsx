@@ -12,12 +12,14 @@ import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 import { observer } from "mobx-react-lite"
 import { useStores } from "app/models"
+import { SearchScreen } from "app/screens/SearchScreen"
 
 export type TabParamList = {
   CartScreen: undefined
   HomeScreen: { queryIndex?: string; itemIndex?: string }
   DemoDebug: undefined
   MenuList: undefined
+  SearchScreen: undefined
 }
 
 /**
@@ -100,6 +102,17 @@ export const Navigator = observer(() => {
           tabBarLabel: translate("tabs.profile"),
           tabBarIcon: ({ focused }) => (
             <Icon icon="debug" color={focused ? colors.main : undefined} size={30} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="SearchScreen"
+        component={SearchScreen}
+        options={{
+          tabBarLabel: translate("tabs.search"),
+          tabBarIcon: ({ focused }) => (
+            <Icon icon="search" color={focused ? colors.main : undefined} size={30} />
           ),
         }}
       />

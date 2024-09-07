@@ -22,6 +22,8 @@ const initIngredients = ingredients.map((ingr) => ({
 
 export const DishCard = memo(
   observer(function ({ dish }: Props) {
+    const { ingredients: dishIngredients, ...dishProps } = dish
+
     const { cartStore } = useStores()
     const [ingredients, setIngredients] = useState(initIngredients)
 
@@ -70,7 +72,7 @@ export const DishCard = memo(
               style={[$fixedButton, { backgroundColor: colors.palette.primary100 }]}
               textStyle={[$fixedButtonContent, { color: "white" }]}
               pressedStyle={[{ backgroundColor: colors.palette.primary300 }]}
-              onPress={() => handleAddEntry({ ...dish, quantity: 1, selectedIngredients: [] })}
+              onPress={() => handleAddEntry({ ...dishProps, quantity: 1, selectedIngredients: [] })}
               tx={"common.cartButton"}
             />
           </View>

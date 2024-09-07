@@ -112,6 +112,7 @@ export const iconRegistry = {
   cart: require("../../assets/icons/shopping-cart.png"),
   dish: require("../../assets/icons/dish.png"),
   trash: require("../../assets/icons/trash.png"),
+  search: require("../../assets/icons/search.png"),
 }
 
 const $imageStyleBase: ImageStyle = {

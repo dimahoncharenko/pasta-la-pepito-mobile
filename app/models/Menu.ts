@@ -22,6 +22,7 @@ export const Menu = types
   .model("Menu", {
     entries: types.array(DishEntry),
     selectedCategory: types.enumeration(["All", "Pasta", "Risotto", "Soup", "Drink", "Other"]),
+    filtered: types.array(DishEntry),
   })
   .actions((store) => ({
     ...withSetPropAction(store),

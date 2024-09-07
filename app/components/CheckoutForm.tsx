@@ -43,8 +43,6 @@ export const CheckoutForm = ({ handleReturn }: Props) => {
   })
 
   const handleSubmitForm = (data: typeof control._formValues) => {
-    console.log(data)
-
     // Reset the state for unsaved changes
     update((values) => ({ ...values, unsavedChanges: false }))
   }

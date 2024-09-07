@@ -11,6 +11,12 @@ const ua = {
     orderButton: "Оформити замовлення",
     addIngredientButton: "Додати інгредієнти",
   },
+  unsavedChangesDialog: {
+    header: "Увага!",
+    message: "У вас є не збережені зміни, дані зміни будуть скасовані! Продовжити?",
+    confirmButton: "Продовжити",
+    cancelButton: "Скасувати",
+  },
   categories: {
     all: "Все меню",
     pasta: "Паста",
@@ -24,12 +30,14 @@ const ua = {
     cart: "Корзина",
     checkout: "Оплата замовника",
     profile: "Профіль",
+    search: "Пошук",
   },
   tabs: {
     home: "Головна",
     cart: "Корзина",
     menu: "Меню",
     profile: "Профіль",
+    search: "Пошук",
   },
   homeScreen: {
     introduction:
@@ -153,6 +161,12 @@ const ua = {
         card: "Карткою онлайн",
       },
     },
+  },
+  menuScreen: {
+    moreButton: "Подивитись ще..",
+  },
+  searchScreen: {
+    searchPlaceholder: "Шукайте страву",
   },
 }
 

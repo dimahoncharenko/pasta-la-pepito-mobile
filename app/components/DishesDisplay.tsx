@@ -1,29 +1,25 @@
-import { useForm } from "react-hook-form"
 import { FlatList } from "react-native-gesture-handler"
-import { useLayoutEffect, useState } from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-import { menu } from "app/data/dish.data"
-import { FilterButton } from "./FilterButton"
 import { DishCard } from "./DishCard"
-import { observer } from "mobx-react-lite"
-import { useStores } from "app/models"
+import { Dish } from "app/data/dish.data"
+import { ViewStyle } from "react-native"
 
-export const DishesDisplay = observer(() => {
-  const { menuStore } = useStores()
+type Props = {
+  dishes: Dish[]
+  containerStyle?: ViewStyle
+}
 
+export const DishesDisplay = ({ dishes, containerStyle }: Props) => {
   return (
     <>
-      <FilterButton />
       <SafeAreaView>
         <FlatList
-          data={menuStore.getFilteredEntries}
-          style={{
-            marginBottom: 250,
-          }}
+          data={dishes}
+          style={containerStyle}
           renderItem={({ item }) => <DishCard dish={item} />}
         />
       </SafeAreaView>
     </>
   )
-})
+}
