@@ -37,6 +37,8 @@ const palette = {
   gray200: "#D2D4D4",
   gray300: "#9FA3A4",
   gray400: "#6F7273",
+
+  white: "#FFFFFF",
 } as const
 
 export const colors = {
@@ -83,4 +85,5 @@ export const colors = {
    *
    */
   errorBackground: palette.angry100,
+  white: palette.white,
 }

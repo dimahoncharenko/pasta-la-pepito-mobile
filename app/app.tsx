@@ -1,3 +1,20 @@
+import "./i18n"
+import "./utils/ignoreWarnings"
+import { useFonts } from "expo-font"
+import * as Linking from "expo-linking"
+import React from "react"
+import { ViewStyle } from "react-native"
+import { GestureHandlerRootView } from "react-native-gesture-handler"
+import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context"
+import Config from "./config"
+import { ThemeProvider } from "./context/theme.context"
+import { UnsavedChangesProvider } from "./context/unsaved.context"
+import { useInitialRootStore } from "./models"
+import { AppNavigator, useNavigationPersistence } from "./navigators"
+import { ErrorBoundary } from "./screens/ErrorScreen/ui/ErrorBoundary"
+import { customFontsToLoad } from "./theme"
+import * as storage from "./utils/storage"
+
 /* eslint-disable import/first */
 /**
  * Welcome to the main entry point of the app. In this file, we'll
@@ -16,22 +33,6 @@ if (__DEV__) {
   // If you turn it off in metro.config.js, you'll have to manually import it.
   require("./devtools/ReactotronConfig.ts")
 }
-import "./i18n"
-import "./utils/ignoreWarnings"
-import { useFonts } from "expo-font"
-import React from "react"
-import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context"
-import * as Linking from "expo-linking"
-import { useInitialRootStore } from "./models"
-import { AppNavigator, useNavigationPersistence } from "./navigators"
-import { ErrorBoundary } from "./screens/ErrorScreen/ErrorBoundary"
-import * as storage from "./utils/storage"
-import { customFontsToLoad } from "./theme"
-import Config from "./config"
-import { GestureHandlerRootView } from "react-native-gesture-handler"
-import { ViewStyle } from "react-native"
-import { ThemeProvider } from "./context/theme.context"
-import { UnsavedChangesProvider } from "./context/unsaved.context"
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 

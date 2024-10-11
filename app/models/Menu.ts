@@ -1,33 +1,35 @@
-import { Dish } from "app/data/dish.data"
 import { types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 
-const Ingredient = types.model("Ingredient", {
-  name: types.string,
-  mass: types.number,
-  price: types.number,
-})
-
 export const DishEntry = types.model("Dish", {
-  name: types.string,
-  description: types.string,
-  mass: types.number,
+  id: types.number,
+  title: types.string,
+  slug: types.string,
+  composition: types.maybeNull(types.string),
+  weight: types.maybeNull(types.number),
+  volume: types.maybeNull(types.number),
   price: types.number,
-  ingredients: types.array(Ingredient),
-  imageSrc: types.string,
-  category: types.enumeration(["Pasta", "Risotto", "Soup", "Drink", "Other"] as Dish["category"][]),
+  image: types.maybeNull(types.string),
+  type: types.string,
+  orderCount: types.number,
+  isNew: types.boolean,
+  customizable: types.boolean,
 })
 
 export const Menu = types
   .model("Menu", {
     entries: types.array(DishEntry),
-    selectedCategory: types.enumeration(["All", "Pasta", "Risotto", "Soup", "Drink", "Other"]),
+    selectedCategory: types.string,
     filtered: types.array(DishEntry),
+    viewingDish: types.maybeNull(types.number),
   })
   .actions((store) => ({
     ...withSetPropAction(store),
-    changeCategory(newCategory: "All" | "Pasta" | "Risotto" | "Soup" | "Drink" | "Other") {
+    changeCategory(newCategory: string) {
       this.setProp("selectedCategory", newCategory)
+    },
+    setViewingDish(value: number | null) {
+      store.viewingDish = value
     },
   }))
   .views((store) => ({
@@ -39,6 +41,9 @@ export const Menu = types
     },
     get getFilteredEntries() {
       if (store.selectedCategory === "All") return store.entries
-      return store.entries.filter((entry) => entry.category === store.selectedCategory)
+      return store.entries.filter((entry) => entry.type === store.selectedCategory)
+    },
+    get isViewing() {
+      return !!store.viewingDish
     },
   }))

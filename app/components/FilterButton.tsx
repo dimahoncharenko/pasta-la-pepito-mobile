@@ -1,5 +1,4 @@
 import { Picker } from "@react-native-picker/picker"
-import { Dish } from "app/data/dish.data"
 import { translate } from "app/i18n"
 import { useStores } from "app/models"
 import { observer } from "mobx-react-lite"
@@ -11,16 +10,16 @@ export const FilterButton = observer(() => {
     <Picker
       selectedValue={menuStore.getCurrentCategory}
       onValueChange={async (val) => {
-        menuStore.changeCategory(val as Dish["category"])
+        menuStore.changeCategory(val)
       }}
       renderToHardwareTextureAndroid={false}
     >
       <Picker.Item label={translate("categories.all")} value="All" />
-      <Picker.Item label={translate("categories.pasta")} value="Pasta" />
-      <Picker.Item label={translate("categories.risotto")} value="Risotto" />
-      <Picker.Item label={translate("categories.soups")} value="Soup" />
-      <Picker.Item label={translate("categories.drinks")} value="Drink" />
-      <Picker.Item label={translate("categories.other")} value="Other" />
+      <Picker.Item label={translate("categories.pasta")} value="Паста" />
+      <Picker.Item label={translate("categories.risotto")} value="Ризото" />
+      <Picker.Item label={translate("categories.soups")} value="Суп" />
+      <Picker.Item label={translate("categories.drinks")} value="Напій" />
+      <Picker.Item label={translate("categories.other")} value="Інше" />
     </Picker>
   )
 })

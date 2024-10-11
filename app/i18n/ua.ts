@@ -10,6 +10,7 @@ const ua = {
     cartButton: "До кошика",
     orderButton: "Оформити замовлення",
     addIngredientButton: "Додати інгредієнти",
+    weight: "Вага",
   },
   unsavedChangesDialog: {
     header: "Увага!",
@@ -52,6 +53,9 @@ const ua = {
       personalization_subtitle: "Додай улюблений інгредієнт",
       payment_title: "Зручна оплата",
       payment_subtitle: "Безготівково або готівкою",
+    },
+    newDishes: {
+      title: "Новинки",
     },
     instagram: {
       title: "Приєднуйтесь до нас в ",
@@ -167,6 +171,16 @@ const ua = {
   },
   searchScreen: {
     searchPlaceholder: "Шукайте страву",
+  },
+  loginScreen: {
+    signIn: "Увійти",
+    emailFieldLabel: "Пошта",
+    emailFieldPlaceholder: "Введіть Вашу пошту...",
+    passwordFieldLabel: "Пароль",
+    passwordFieldPlaceholder: "Введіть Ваш пароль...",
+    tapToSignIn: "Увійти",
+    registerLinkLabel: "Немає акаунту?",
+    registerLink: "Зареєструватись",
   },
 }
 

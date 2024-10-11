@@ -1,16 +1,16 @@
-import { FlatList, Image, ImageSourcePropType } from "react-native"
-import { Text } from "./Text"
+import { Text } from "app/components"
 import { translate } from "app/i18n"
+import { FlatList, Image, ImageSourcePropType } from "react-native"
 
 const items = [
   {
-    image: require("../../assets/images/dish-1.jpg"),
+    image: require("../../../../assets/images/dish-1.jpg"),
   },
   {
-    image: require("../../assets/images/dish-2.jpg"),
+    image: require("../../../../assets/images/dish-2.jpg"),
   },
   {
-    image: require("../../assets/images/dish-3.jpg"),
+    image: require("../../../../assets/images/dish-3.jpg"),
   },
 ]
 
@@ -37,7 +37,7 @@ export const InstaFeed = () => {
       </Text>
       <FlatList
         className="mx-2 mb-[60px]"
-        horizontal={true}
+        horizontal
         data={items}
         renderItem={({ item, index }) => <Item key={index} image={item.image} />}
       />

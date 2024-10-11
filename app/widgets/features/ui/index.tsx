@@ -1,28 +1,27 @@
-import { Image, ImageSourcePropType, View } from "react-native"
-
-import { Text } from "./Text"
+import { Text } from "app/components"
 import { translate } from "app/i18n"
+import { Image, ImageSourcePropType, View } from "react-native"
 
 const items: ItemProps[] = [
   {
     title: translate("homeScreen.features.delivery_title"),
     description: translate("homeScreen.features.delivery_subtitle"),
-    iconPath: require("../../assets/images/feature-1.png"),
+    iconPath: require("../../../../assets/images/feature-1.png"),
   },
   {
     title: translate("homeScreen.features.recipes_title"),
     description: translate("homeScreen.features.recipes_subtitle"),
-    iconPath: require("../../assets/images/feature-2.png"),
+    iconPath: require("../../../../assets/images/feature-2.png"),
   },
   {
     title: translate("homeScreen.features.recipes_title"),
     description: translate("homeScreen.features.recipes_subtitle"),
-    iconPath: require("../../assets/images/feature-3.png"),
+    iconPath: require("../../../../assets/images/feature-3.png"),
   },
   {
     title: translate("homeScreen.features.payment_title"),
     description: translate("homeScreen.features.payment_subtitle"),
-    iconPath: require("../../assets/images/feature-4.png"),
+    iconPath: require("../../../../assets/images/feature-4.png"),
   },
 ]
 

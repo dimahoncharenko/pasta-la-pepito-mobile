@@ -18,8 +18,8 @@ export const SearchScreen = observer(() => {
   const filtered = useMemo(() => {
     return menuStore.entries.filter(
       (item) =>
-        item.category.toLowerCase().includes(deferredSearch.toLowerCase()) ||
-        item.name.toLowerCase().includes(deferredSearch.toLowerCase()),
+        item.title.toLowerCase().includes(deferredSearch.toLowerCase()) ||
+        item.composition?.toLowerCase().includes(deferredSearch.toLowerCase()),
     )
   }, [deferredSearch])
 

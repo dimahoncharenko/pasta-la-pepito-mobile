@@ -1,142 +1,120 @@
-import { observer } from "mobx-react-lite"
+import type { ReactNode } from "react"
+import { Dish } from "types/dish.types"
+import { HitLabel } from "./HitLabel"
 import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
-import { useState, memo } from "react"
-
-import { Dish } from "app/data/dish.data"
+import { formatMass } from "app/helpers/dishCard.helpers"
+import { colors, typography } from "app/theme"
 import { Text } from "./Text"
-import { Button } from "./Button"
-import { colors } from "app/theme"
-import { useStores } from "app/models"
-import { ingredients } from "app/data/ingredients.data"
-import { IngredientsModal } from "./IngredientsModal"
-import { CartEntry } from "app/models/Cart"
 
-type Props = {
+export const DishCard = ({
+  dish,
+  addIngredientSlot,
+  addToCartSlot,
+  isHit = false,
+}: {
   dish: Dish
-}
-
-const initIngredients = ingredients.map((ingr) => ({
-  ...ingr,
-  quantity: 0,
-}))
-
-export const DishCard = memo(
-  observer(function ({ dish }: Props) {
-    const { ingredients: dishIngredients, ...dishProps } = dish
-
-    const { cartStore } = useStores()
-    const [ingredients, setIngredients] = useState(initIngredients)
-
-    const [visible, setVisible] = useState(false)
-
-    const showModal = () => setVisible(true)
-    const hideModal = () => setVisible(false)
-
-    const handleAddEntry = (entry: CartEntry) => {
-      cartStore.addEntry(entry)
-    }
-
-    const handleClearIngredients = () => {
-      setIngredients(initIngredients)
-    }
-
-    return (
-      <View style={$cardContainer}>
-        <Image src={dish.imageSrc} style={$image} resizeMode="cover" />
-        <View style={$content}>
-          <Text style={$dishName} preset="bold">
-            {dish.name}
-          </Text>
-          <Text style={$description}>{dish.description}</Text>
+  addIngredientSlot?: ReactNode
+  addToCartSlot?: ReactNode
+  isHit?: boolean
+}) => {
+  return (
+    <View style={$wrapper}>
+      <View style={$imgWrapper}>
+        <Image
+          src={dish.image ? dish.image : "https://placehold.co/600x400.png"}
+          alt={dish.title}
+          style={$img}
+        />
+      </View>
+      <View style={$content}>
+        <Text style={$title}>{dish.title}</Text>
+        <Text style={$composition}>{dish.composition}</Text>
+        <View>
           <View style={$row}>
-            <Text style={$mass}>Вага: {dish.mass}</Text>
-            <Button
-              style={[$fixedButton, { borderColor: colors.palette.primary100, borderWidth: 1 }]}
-              textStyle={[$fixedButtonContent, { color: colors.palette.primary100 }]}
-              onPress={showModal}
-              tx={"common.addIngredientButton"}
-            />
+            {dish.weight ? (
+              <Text style={$weight}>Вага: {formatMass(dish.weight)}</Text>
+            ) : (
+              <Text style={$weight}>Вага: не вказано</Text>
+            )}
+            {addIngredientSlot}
           </View>
-          <IngredientsModal
-            hideModal={hideModal}
-            addEntry={handleAddEntry}
-            ingredients={ingredients}
-            clearIngredients={handleClearIngredients}
-            visible={visible}
-            currentDish={dish}
-            setIngredients={setIngredients}
-          />
-          <View style={[$row, { marginTop: 16 }]}>
-            <Text style={$price}>{dish.price}₴</Text>
-            <Button
-              style={[$fixedButton, { backgroundColor: colors.palette.primary100 }]}
-              textStyle={[$fixedButtonContent, { color: "white" }]}
-              pressedStyle={[{ backgroundColor: colors.palette.primary300 }]}
-              onPress={() => handleAddEntry({ ...dishProps, quantity: 1, selectedIngredients: [] })}
-              tx={"common.cartButton"}
-            />
+
+          <View style={$row}>
+            <Text style={$price}>{dish.price.toFixed(0)}₴</Text>
+            {addToCartSlot}
           </View>
         </View>
       </View>
-    )
-  }),
-)
 
-const $cardContainer: ViewStyle = {
-  borderRadius: 30,
-  overflow: "hidden",
-  borderWidth: 1,
-  borderColor: colors.palette.primary100,
-  marginVertical: 12,
+      {isHit && <HitLabel />}
+    </View>
+  )
 }
 
-const $image: ImageStyle = {
-  height: 260,
+const $wrapper: ViewStyle = {
+  position: "relative",
   width: "100%",
+  overflow: "hidden",
+  borderRadius: 30,
+  borderColor: colors.palette.primary200,
+  borderWidth: 1,
+  borderStyle: "solid",
+  marginBottom: 24,
 }
 
-const $content: TextStyle = {
-  paddingHorizontal: 16,
-  paddingTop: 16,
-  paddingBottom: 24,
+const $imgWrapper: ViewStyle = {
+  position: "relative",
+  aspectRatio: "5/3.8417",
 }
 
-const $dishName: TextStyle = {
+const $img: ImageStyle = {
+  objectFit: "cover",
+  position: "absolute",
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
+}
+
+const $content: ViewStyle = {
+  padding: 16,
+  backgroundColor: "white",
+}
+
+const $title: TextStyle = {
+  marginBottom: 4,
+  height: 46,
   fontSize: 20,
+  lineHeight: 26,
+  fontFamily: typography.fonts.inter.medium,
 }
 
-const $description: TextStyle = {
+const $composition: TextStyle = {
+  marginBottom: 24,
   fontSize: 14,
-  textAlign: "justify",
   lineHeight: 18.2,
-  paddingVertical: 24,
+  height: 36,
   opacity: 0.7,
+}
+
+const $weight: TextStyle = {
+  fontSize: 14,
+  lineHeight: 18.2,
+  opacity: 0.7,
+}
+
+const $price: TextStyle = {
+  fontSize: 26,
+  lineHeight: 31.47,
+  fontFamily: typography.fonts.inter.medium,
 }
 
 const $row: ViewStyle = {
   display: "flex",
   flexDirection: "row",
+  width: "100%",
   justifyContent: "space-between",
   alignItems: "center",
-}
-
-const $mass: TextStyle = {
-  fontSize: 14,
-}
-
-const $price: TextStyle = {
-  fontSize: 18,
-  fontWeight: 700,
-}
-
-const $fixedButton: ViewStyle = {
-  width: 200,
-  paddingVertical: 12,
-  borderRadius: 30,
-  borderWidth: 0,
-}
-
-const $fixedButtonContent: TextStyle = {
-  fontSize: 16,
-  fontWeight: 700,
+  gap: 16,
+  marginBottom: 16,
 }

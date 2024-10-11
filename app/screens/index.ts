@@ -1,7 +1,6 @@
 export * from "./LoginScreen"
 export * from "./CartScreen"
 export * from "./DemoDebugScreen"
-export * from "./HomeScreen/HomeScreen"
+export * from "./HomeScreen"
 
-export * from "./ErrorScreen/ErrorBoundary"
-// export other screens here
+export * from "./ErrorScreen/ui/ErrorBoundary"

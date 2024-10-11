@@ -1,24 +1,22 @@
-import { TextStyle, View, ViewStyle } from "react-native"
+import { CartBilling } from "app/components/CartBilling"
+import { CartList } from "app/components/CartList"
+import { CheckoutForm } from "app/components/CheckoutForm"
+import { DeliveryMethods } from "app/components/DeliveryMethods"
+import { translate } from "app/i18n"
+import { useStores } from "app/models"
 import { observer } from "mobx-react-lite"
-import { useForm } from "react-hook-form"
 import React, { FC, useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import { TextStyle, View, ViewStyle } from "react-native"
 import Animated, {
   SharedValue,
-  WithTimingConfig,
   useSharedValue,
   withTiming,
+  WithTimingConfig,
 } from "react-native-reanimated"
-
 import { Button, EmptyState, Icon, Screen, Text } from "../components"
-import { TabScreenProps } from "../navigators/DemoNavigator"
+import { TabScreenProps } from "../navigators/BottomNavigator"
 import { colors, spacing, typography } from "../theme"
-
-import { CartList } from "app/components/CartList"
-import { CartBilling } from "app/components/CartBilling"
-import { useStores } from "app/models"
-import { DeliveryMethods } from "app/components/DeliveryMethods"
-import { CheckoutForm } from "app/components/CheckoutForm"
-import { translate } from "app/i18n"
 
 type ViewState = "Cart" | "Checkout"
 

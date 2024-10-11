@@ -1,2 +1,2 @@
-export * from "./api"
-export * from "./api.types"
+export * from "./dish/dishApi"
+export * from "./dish/dishApi.types"

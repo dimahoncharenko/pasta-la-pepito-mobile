@@ -1,13 +1,12 @@
+import { Link } from "@react-navigation/native"
+import * as SecureStore from "expo-secure-store"
 import { observer } from "mobx-react-lite"
 import React, { ComponentType, FC, useEffect, useMemo, useRef, useState } from "react"
-import { Platform, TextInput, ViewStyle, Text, View } from "react-native"
-import * as SecureStore from "expo-secure-store"
-
-import { Button, Icon, Screen, TextField, TextFieldAccessoryProps } from "../components"
+import { Platform, TextInput, View, ViewStyle } from "react-native"
+import { Button, Icon, Screen, Text, TextField, TextFieldAccessoryProps } from "../components"
 import { useStores } from "../models"
 import { AppStackScreenProps } from "../navigators"
-import { colors, spacing } from "../theme"
-import { Link } from "@react-navigation/native"
+import { colors, spacing, typography } from "../theme"
 
 interface LoginScreenProps extends AppStackScreenProps<"Login"> {}
 
@@ -88,9 +87,15 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
       contentContainerStyle={$screenContentContainer}
       safeAreaEdges={["top", "bottom"]}
     >
-      {/* <Text testID="login-heading" tx="loginScreen.signIn" preset="heading" style={$signIn} /> */}
-
-      <Text className="text-secondary-100 text-5xl font-alegreyaMedium mb-8">Sign in</Text>
+      <Text
+        testID="login-heading"
+        tx="loginScreen.signIn"
+        className="text-secondary-200 text-5xl"
+        style={{
+          marginBottom: spacing.sm,
+          fontFamily: typography.fonts.alegreyaSC.medium,
+        }}
+      />
 
       <TextField
         value={authEmail}
@@ -158,9 +163,15 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
         onPress={login}
       />
       <View className="flex flex-row gap-1 mt-5 justify-center">
-        <Text className="text-sm font-interMedium text-gray-100">Don't have an account?</Text>
+        <Text
+          className="text-sm font-interMedium text-gray-100"
+          tx="loginScreen.registerLinkLabel"
+        />
         <Link to="/sign-up">
-          <Text className="text-sm font-interMedium text-orange-300">Signup</Text>
+          <Text
+            className="text-sm font-interMedium text-orange-300"
+            tx="loginScreen.registerLink"
+          />
         </Link>
       </View>
     </Screen>

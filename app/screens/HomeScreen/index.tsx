@@ -1,14 +1,14 @@
 import { Link } from "@react-navigation/native"
+import { screenPathMap } from "app/helpers/homePage.helpers"
 import React, { FC, ReactElement, useState } from "react"
 import { Image, Platform, View, ViewStyle } from "react-native"
 import { Drawer } from "react-native-drawer-layout"
 import { ListItem, Text } from "../../components"
 import { isRTL, translate } from "../../i18n"
-import { TabScreenProps } from "../../navigators/DemoNavigator"
+import { TabScreenProps } from "../../navigators/BottomNavigator"
 import { colors, spacing } from "../../theme"
 import { useSafeAreaInsetsStyle } from "../../utils/useSafeAreaInsetsStyle"
 import { Sections } from "./Sections"
-import { screenPathMap } from "app/helpers/homePage.helpers"
 
 export interface Screen {
   name: string

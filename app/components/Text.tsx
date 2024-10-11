@@ -1,6 +1,6 @@
 import i18n from "i18n-js"
 import React from "react"
-import { StyleProp, Text as RNText, TextProps as RNTextProps, TextStyle } from "react-native"
+import { Text as RNText, TextProps as RNTextProps, StyleProp, TextStyle } from "react-native"
 import { isRTL, translate, TxKeyPath } from "../i18n"
 import { colors, typography } from "../theme"
 
@@ -55,19 +55,19 @@ export function Text(props: TextProps) {
   const { weight, size, tx, txOptions, text, children, style: $styleOverride, ...rest } = props
 
   const i18nText = tx && translate(tx, txOptions)
-  const content = i18nText || text || children
+  const content = <RNText className={props.className}>{i18nText}</RNText> || text || children
 
-  const preset: Presets = props.preset ?? "default"
+  const preset: Presets | undefined = props.preset ?? undefined
   const $styles: StyleProp<TextStyle> = [
     $rtlStyle,
-    $presets[preset],
+    preset && $presets[preset],
     weight && $fontWeightStyles[weight],
     size && $sizeStyles[size],
     $styleOverride,
   ]
 
   return (
-    <RNText {...rest} style={$styles}>
+    <RNText {...rest} style={$styles} className={!!i18nText ? undefined : props.className}>
       {content}
     </RNText>
   )

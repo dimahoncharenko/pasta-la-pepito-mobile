@@ -1,37 +1,30 @@
 import { types } from "mobx-state-tree"
 
 import { withSetPropAction } from "./helpers/withSetPropAction"
-import { Dish } from "app/data/dish.data"
+import { Dish } from "types/dish.types"
+import { DishEntry } from "./Menu"
+import { Ingredient } from "types/ingredients.types"
 
 export type CartEntry = {
   quantity: number
-  selectedIngredients: {
-    name: string
-    mass: number
-    price: number
-    quantity: number
-    imageSrc: any
-  }[]
-} & Omit<Dish, "ingredients">
+  selectedIngredients: (Ingredient & { quantity: number })[]
+} & Dish
 
 const CustomIngredientModel = types.model("CustomIngredient", {
-  imageSrc: types.number,
-  mass: types.number,
+  id: types.number,
   name: types.string,
   price: types.number,
+  image: types.maybeNull(types.number),
   quantity: types.number,
 })
 
-export const CartEntryModel = types.model("CartEntry", {
-  name: types.string,
-  description: types.string,
-  mass: types.number,
-  price: types.number,
-  selectedIngredients: types.array(CustomIngredientModel),
-  imageSrc: types.string,
-  category: types.enumeration(["Pasta", "Risotto", "Soup", "Drink", "Other"] as Dish["category"][]),
-  quantity: types.number,
-})
+export const CartEntryModel = types.compose(
+  types.model("CartEntry", {
+    quantity: types.number,
+    selectedIngredients: types.array(CustomIngredientModel),
+  }),
+  DishEntry,
+)
 
 export const Cart = types
   .model("Cart", {
@@ -42,7 +35,7 @@ export const Cart = types
     ...withSetPropAction(store),
     decreaseQuantity(name: string) {
       store.entries.forEach((ent, index) => {
-        if (ent.name === name && ent.quantity > 0) {
+        if (ent.title === name && ent.quantity > 0) {
           ent.quantity--
           store.totalPrice -= ent.price * ent.quantity
 
@@ -55,14 +48,14 @@ export const Cart = types
     },
     increaseQuantity(name: string) {
       store.entries.forEach((ent) => {
-        if (ent.name === name) {
+        if (ent.title === name) {
           ent.quantity++
           store.totalPrice += ent.price * ent.quantity
         }
       })
     },
     addEntry(entry: CartEntry) {
-      const duplicate = store.entries.find((ent) => ent.name === entry.name)
+      const duplicate = store.entries.find((ent) => ent.title === entry.title)
 
       if (
         duplicate &&
@@ -70,14 +63,16 @@ export const Cart = types
         entry.selectedIngredients &&
         duplicate.selectedIngredients.toString() !== entry.selectedIngredients.toString()
       ) {
-        this.removeEntry(entry.name)
+        console.log(entry)
+
+        this.removeEntry(entry.title)
         store.entries.push(entry)
       } else if (!duplicate) {
         store.entries.push(entry)
       }
     },
     removeEntry(name: string) {
-      const candidate = store.entries.findIndex((ent) => ent.name === name)
+      const candidate = store.entries.findIndex((ent) => ent.title === name)
       if (candidate === -1) return
       const entry = store.entries[candidate]
 
