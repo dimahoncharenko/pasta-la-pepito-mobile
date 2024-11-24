@@ -2,6 +2,10 @@ import { types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 
 export const DishEntry = types.model("Dish", {
+  category: types.model({
+    id: types.number,
+    name: types.string,
+  }),
   id: types.number,
   title: types.string,
   slug: types.string,
@@ -10,7 +14,6 @@ export const DishEntry = types.model("Dish", {
   composition: types.maybeNull(types.string),
   price: types.number,
   image: types.maybeNull(types.string),
-  type: types.string,
   isNew: types.boolean,
   customizable: types.boolean,
   orderCount: types.number,
@@ -41,9 +44,12 @@ export const Menu = types
     },
     get getFilteredEntries() {
       if (store.selectedCategory === "All") return store.entries
-      return store.entries.filter((entry) => entry.type === store.selectedCategory)
+      return store.entries.filter((entry) => entry.category.name === store.selectedCategory)
     },
     get isViewing() {
       return !!store.viewingDish
+    },
+    getEntryById(id: number) {
+      return store.entries.find((entry) => entry.id === id)
     },
   }))

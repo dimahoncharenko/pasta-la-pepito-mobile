@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite"
 import React, { FC, useEffect } from "react"
-import { DishesDisplay } from "src/components/DishesDisplay"
 import { dishApi } from "src/entities/dish/api/dishApi"
 import { FilterButton } from "src/features/filter-button"
 import { useStores } from "src/models"
@@ -8,6 +7,7 @@ import { TabScreenProps } from "src/screens/HomeScreen"
 import Config from "src/shared/config"
 import { translate } from "src/shared/i18n"
 import { SectionHeading } from "src/shared/ui/SectionHeading"
+import { DishesList } from "src/widgets/dishes-list"
 import { Screen, Text } from "../../../components"
 
 export const MenuScreen: FC<TabScreenProps<"MenuList">> = observer((_props) => {
@@ -18,6 +18,7 @@ export const MenuScreen: FC<TabScreenProps<"MenuList">> = observer((_props) => {
     ;(async () => {
       try {
         const dishes = await dishApi.getDishes()
+
         dishes.kind === "ok" && menuStore.setProp("entries", dishes.dishes)
         dishes.kind === "ok" && menuStore.setProp("filtered", dishes.dishes)
         dishes.kind === "ok" && menuStore.setProp("selectedCategory", "All")
@@ -40,7 +41,7 @@ export const MenuScreen: FC<TabScreenProps<"MenuList">> = observer((_props) => {
         children={<Text className="font-alegreyaSCMedium">{translate("screenHeaders.menu")}</Text>}
       />
       <FilterButton />
-      <DishesDisplay
+      <DishesList
         dishes={menuStore.getFilteredEntries.slice(0, expandedCount * Config.itemsPerScreen)}
         additionalState={{
           canLoadMore,

@@ -2,7 +2,7 @@ import { ViewStyle } from "react-native"
 import { Dish } from "src/entities/dish/models/dish.types"
 import { useStores } from "src/models"
 import { colors } from "src/theme"
-import { Button } from "./Button"
+import { Button } from "../../../components/Button"
 
 type Props = {
   dish: Dish
@@ -14,7 +14,22 @@ export const AddToCartButton = ({ dish, quantity, selectedIngredients = [] }: Pr
   const { cartStore } = useStores()
 
   const handlePress = () => {
-    cartStore.addEntry({ ...dish, quantity, selectedIngredients })
+    cartStore.addEntry({
+      category: { id: dish.category.id, name: dish.category.name },
+      composition: dish.composition,
+      customizable: dish.customizable,
+      id: dish.id,
+      image: dish.image,
+      isNew: dish.isNew,
+      orderCount: dish.orderCount,
+      price: dish.price,
+      title: dish.title,
+      slug: dish.slug,
+      volume: dish.volume,
+      weight: dish.weight,
+      quantity,
+      selectedIngredients,
+    })
   }
 
   return (

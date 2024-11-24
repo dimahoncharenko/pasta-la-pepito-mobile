@@ -1,13 +1,13 @@
 import { ViewStyle } from "react-native"
 import { FlatList } from "react-native-gesture-handler"
 import { SafeAreaView } from "react-native-safe-area-context"
+import { Button } from "src/components"
 import { Dish } from "src/entities/dish/models/dish.types"
+import { DishCard } from "src/entities/dish/ui"
+import { AddToCartButton } from "src/features/add-cart-button/ui/AddToCartButton"
+import { AddIngredientButton } from "src/features/add-ingredient-button"
 import { translate } from "src/shared/i18n"
 import { colors } from "src/theme"
-import { DishCard } from "../entities/dish/ui/dish-card"
-import { AddIngredientButton } from "./AddIngredientButton"
-import { AddToCartButton } from "./AddToCartButton"
-import { Button } from "./Button"
 
 type Props = {
   dishes: Dish[]
@@ -19,7 +19,7 @@ type Props = {
   }
 }
 
-export const DishesDisplay = ({
+export const DishesList = ({
   dishes,
   containerStyle,
   additionalState,
