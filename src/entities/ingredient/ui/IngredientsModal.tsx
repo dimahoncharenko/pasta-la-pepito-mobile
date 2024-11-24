@@ -12,24 +12,70 @@ import { Icon } from "../../../components/Icon"
 import { Text } from "../../../components/Text"
 
 export const IngredientsModal = observer(() => {
-  const { ingredientsStore, menuStore } = useStores()
+  const { ingredientsStore, menuStore, cartStore } = useStores()
 
   const [ingredients, setIngredients] = useState<{
     [P: string]: {
-      count: number
+      id: number
+      quantity: number
       price: number
+      name: string
+      image: string | null
     }
   }>(initIngredients(ingredientsStore.getEntries || []))
 
   const handleAdd = () => {
-    handleClear()
-    menuStore.setViewingDish(null)
+    const viewedId = menuStore.viewingDish
+    const viewingDish = Object.create(menuStore.getEntryById(viewedId!) || null)
+
+    if (viewingDish) {
+      console.log({
+        ...viewingDish,
+        quantity: 1,
+        selectedIngredients: Object.values(ingredients)
+          .filter((ingr) => ingr.quantity > 0)
+          .map((ingr) => ({
+            id: ingr.id,
+            name: ingr.name,
+            price: ingr.price,
+            quantity: ingr.quantity,
+          })),
+      })
+
+      cartStore.addEntry({
+        category: { id: viewingDish.category.id, name: viewingDish.category.name },
+        composition: viewingDish.composition,
+        customizable: viewingDish.customizable,
+        id: viewingDish.id,
+        image: viewingDish.image,
+        isNew: viewingDish.isNew,
+        orderCount: viewingDish.orderCount,
+        price: viewingDish.price,
+        title: viewingDish.title,
+        quantity: 1,
+        slug: viewingDish.slug,
+        volume: viewingDish.volume,
+        weight: viewingDish.weight,
+        selectedIngredients: Object.values(ingredients)
+          .filter((ingr) => ingr.quantity > 0)
+          .map((ingr) => ({
+            id: ingr.id,
+            name: ingr.name,
+            price: ingr.price,
+            quantity: ingr.quantity,
+            image: ingr.image,
+          })),
+      })
+
+      handleClear()
+      menuStore.setViewingDish(null)
+    }
   }
 
   const extraCost = useMemo(() => {
     let cost = 0
     for (const name in ingredients) {
-      cost += (ingredients[name].count || 0) * (ingredients[name].price || 0)
+      cost += (ingredients[name].quantity || 0) * (ingredients[name].price || 0)
     }
 
     return cost
@@ -43,10 +89,13 @@ export const IngredientsModal = observer(() => {
     setIngredients((prev) => ({
       ...prev,
       [ingredient]: {
-        count:
+        id: prev[ingredient].id,
+        image: prev[ingredient].image,
+        name: prev[ingredient].name,
+        quantity:
           action === "DECREASE"
-            ? Math.max(prev[ingredient].count - 1, 0)
-            : prev[ingredient].count + 1,
+            ? Math.max(prev[ingredient].quantity - 1, 0)
+            : prev[ingredient].quantity + 1,
         price: prev[ingredient].price,
       },
     }))
@@ -76,7 +125,7 @@ export const IngredientsModal = observer(() => {
                     </Text>
 
                     <Image
-                      src={ingr.image || "https://placehold.co/600x400.png"}
+                      source={{ uri: ingr.image || "https://placehold.co/600x400.png" }}
                       alt={ingr.name}
                       className="w-[80px] h-[80px] rounded-[6px]"
                     />
@@ -89,7 +138,7 @@ export const IngredientsModal = observer(() => {
                       <Button
                         className="border bg-gray-100 rounded-[6px] border-gray-200 h-8 w-8 justify-center items-center"
                         textClassname="text-gray-400 text-xl"
-                        disabled={!ingredients[ingr.name].count}
+                        disabled={!ingredients[ingr.name].quantity}
                         disabledTextStyle={{ color: colors.palette.gray200 }}
                         onPress={() => handleChangeQuantity("DECREASE", ingr.name)}
                       >
@@ -97,7 +146,7 @@ export const IngredientsModal = observer(() => {
                       </Button>
                       <View className="border bg-gray-100 rounded-[6px] border-gray-200 h-8 w-8 justify-center items-center">
                         <Text className="font-interMedium text-xl leading-[26px]">
-                          {ingredients[ingr.name].count}
+                          {ingredients[ingr.name].quantity}
                         </Text>
                       </View>
                       <Button
@@ -122,7 +171,7 @@ export const IngredientsModal = observer(() => {
                 </Text>
               </View>
               <Image
-                src={viewingDish.image || "https://placehold.co/600x400.png"}
+                source={{ uri: viewingDish.image || "https://placehold.co/600x400.png" }}
                 alt={viewingDish.title}
                 className="h-[104px] aspect-square rounded-[8px]"
                 resizeMode="cover"

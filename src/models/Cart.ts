@@ -13,7 +13,7 @@ const CustomIngredientModel = types.model("CustomIngredient", {
   id: types.number,
   name: types.string,
   price: types.number,
-  image: types.maybeNull(types.number),
+  image: types.maybeNull(types.string),
   quantity: types.number,
 })
 
@@ -60,10 +60,8 @@ export const Cart = types
         duplicate &&
         duplicate.selectedIngredients &&
         entry.selectedIngredients &&
-        duplicate.selectedIngredients.toString() !== entry.selectedIngredients.toString()
+        JSON.stringify(duplicate.selectedIngredients) !== JSON.stringify(entry.selectedIngredients)
       ) {
-        console.log(entry)
-
         this.removeEntry(entry.title)
         store.entries.push(entry)
       } else if (!duplicate) {

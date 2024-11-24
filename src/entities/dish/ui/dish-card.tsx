@@ -20,7 +20,7 @@ export const DishCard = ({
     <View className="relative w-full overflow-hidden rounded-enormous border border-primary-light mb-6">
       <View className="relative aspect-[5/4]">
         <Image
-          src={dish.image ? dish.image : "https://placehold.co/600x400.png"}
+          source={{ uri: dish.image ? dish.image : "https://placehold.co/600x400.png" }}
           alt={dish.title}
           className="object-cover absolute top-0 bottom-0 left-0 right-0"
         />

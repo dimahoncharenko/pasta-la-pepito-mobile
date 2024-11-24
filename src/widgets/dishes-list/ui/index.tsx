@@ -1,1 +1,1 @@
-export const DishesList = () => <></>
+export * from "./DishesList"

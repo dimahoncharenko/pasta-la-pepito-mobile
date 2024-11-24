@@ -3,11 +3,11 @@ import { useDeferredValue, useMemo, useState } from "react"
 import { TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 import { TextInput } from "react-native-gesture-handler"
 import { Icon, Screen, Text } from "src/components"
-import { DishesDisplay } from "src/components/DishesDisplay"
 import { FlexRow } from "src/components/FlexRow"
 import { useStores } from "src/models"
 import { translate } from "src/shared/i18n"
 import { colors, spacing, typography } from "src/theme"
+import { DishesList } from "src/widgets/dishes-list"
 
 export const SearchScreen = observer(() => {
   const { menuStore } = useStores()
@@ -57,7 +57,7 @@ export const SearchScreen = observer(() => {
           </TouchableOpacity>
         )}
       </View>
-      <DishesDisplay
+      <DishesList
         dishes={deferredSearch ? filtered : menuStore.entries}
         containerStyle={{ marginBottom: 210 }}
       />
